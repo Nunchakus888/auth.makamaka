@@ -1,5 +1,26 @@
 # auth.makamaka.io
 
+## 登录服务接入说明：
+
+
+> 跳转 https://auth.makamaka.io?redirect=xxx
+>> redirect： 登录成功回跳url，注意encode
+
+eg：
+
+```javascript
+
+export default function Login({ children }) {
+  const redirect = `https://auth.makamaka.io?redirect=${encodeURIComponent(window.location?.href) }`
+  return (
+    <a className="text-sm text-gray-400 underline" href={redirect}>
+      {children}
+    </a>
+  );
+}
+
+```
+
 
 
 ### 环境
