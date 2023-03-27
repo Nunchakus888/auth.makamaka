@@ -52,6 +52,11 @@ const FirebaseLogin = ({ ...others }) => {
 
   const redirect = decodeURIComponent(new URLSearchParams(location.search).get('redirect') || '') || 'https://makamaka.io';
 
+  useEffect(() => {
+    // document.cookie = `next_url=${redirect}; expires=Tue, 19 Jan 2038 04:14:07 GMT`;
+    document.cookie = `next_url=${redirect}; expires=0; path=/`;
+  }, []);
+
   const googleHandler = () => {
     // 跳转到外链 —> 重定向到注册页面
     window.location.href = THIRDPARTYLOGINURL + '/login/google';
