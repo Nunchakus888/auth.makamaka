@@ -50,11 +50,11 @@ const FirebaseLogin = ({ ...others }) => {
   const [checked, setChecked] = useState(true);
   const toast = useToast();
 
-  const redirect = decodeURIComponent(new URLSearchParams(location.search).get('redirect') || '');
+  const redirect = decodeURIComponent(new URLSearchParams(location.search).get('redirect') || '') || 'https://makamaka.io';
 
   useEffect(() => {
     // document.cookie = `next_url=${redirect}; expires=Tue, 19 Jan 2038 04:14:07 GMT`;
-    document.cookie = `_next_url=${redirect}; expires=0; path=/`;
+    document.cookie = `_next_url=${redirect}; expires=0; domain=.makamaka.io; path=/`;
   }, [redirect]);
 
   const jump2login = (path) => {
