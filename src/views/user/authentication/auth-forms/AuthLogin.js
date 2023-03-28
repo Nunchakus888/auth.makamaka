@@ -50,20 +50,16 @@ const FirebaseLogin = ({ ...others }) => {
   const [checked, setChecked] = useState(true);
   const toast = useToast();
 
-  const redirect = decodeURIComponent(new URLSearchParams(location.search).get('redirect') || '') || 'https://makamaka.io';
+  const redirect = decodeURIComponent(new URLSearchParams(location.search).get('redirect') || '');
 
   useEffect(() => {
     // document.cookie = `next_url=${redirect}; expires=Tue, 19 Jan 2038 04:14:07 GMT`;
-    document.cookie = `next_url=${redirect}; expires=0; path=/`;
-  }, []);
+    document.cookie = `_next_url=${redirect}; expires=0; path=/`;
+  }, [redirect]);
 
-  const googleHandler = () => {
+  const jump2login = (path) => {
     // 跳转到外链 —> 重定向到注册页面
-    window.location.href = THIRDPARTYLOGINURL + '/login/google';
-  };
-
-  const discordHandler = () => {
-    window.location.href = THIRDPARTYLOGINURL + '/login/discord';
+    window.location.href = `${THIRDPARTYLOGINURL}/${path}?redirect=${encodeURIComponent(redirect)}`;
   };
 
   const handlerForget = () => {
@@ -88,7 +84,7 @@ const FirebaseLogin = ({ ...others }) => {
             <Button
               disableElevation
               fullWidth
-              onClick={googleHandler}
+              onClick={() => jump2login('google')}
               size="large"
               variant="outlined"
               sx={{
@@ -107,7 +103,7 @@ const FirebaseLogin = ({ ...others }) => {
             <Button
               disableElevation
               fullWidth
-              onClick={discordHandler}
+              onClick={() => jump2login('discord')}
               size="large"
               variant="outlined"
               sx={{
