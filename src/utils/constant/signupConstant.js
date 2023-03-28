@@ -20,5 +20,5 @@ export const UpdateProfilesuccess = "更新成功";
 
 export const UpdateProfilefail = "更新失败";
 
-export const THIRDPARTYLOGINURL = 'https://www.auth.makamaka.io/api/v1';
+export const THIRDPARTYLOGINURL = 'https://auth.makamaka.io/api/v1';
 
