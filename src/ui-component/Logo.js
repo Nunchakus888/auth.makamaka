@@ -3,6 +3,7 @@ import {Link, useSearchParams} from 'react-router-dom';
 import config from '../config';
 import { Box, ButtonBase } from '@mui/material';
 import {useEffect, useState} from "react";
+import { isDev2, remagiImg, miaohuaImg } from '../../src/layout/NavigationScroll'
 /**
  * if you want to use image instead of <svg> uncomment following.
  *
@@ -14,7 +15,8 @@ import {useEffect, useState} from "react";
 // ==============================|| LOGO SVG ||============================== //
 
 const Logo = (props) => {
-  const [imgurl, setImgurl] = useState('//bkmk.oss-accelerate.aliyuncs.com/assets%2Flogo.png?OSSAccessKeyId=LTAI5tPynodLHeacT1J5SmWh&Expires=317032042875&Signature=drlEi18O6ZxO%2B9dkx35%2B9IOcfCY%3D')
+  const imgurl = isDev2 ? miaohuaImg : remagiImg
+  const width = isDev2 ? "100px" : "200px"
 
   // useEffect(() => {
   //   // if(props.pathname === 'home'){
@@ -25,7 +27,7 @@ const Logo = (props) => {
     <ButtonBase disableRipple component={Link} to={config.defaultPath}>
       <Box sx={{ display: 'flex', gap: '5px', alignItems: 'center' }}>
         {/* eslint-disable-next-line jsx-a11y/alt-text */}
-        <img src={imgurl} style={{ width: '200px' }} />
+        <img src={imgurl} style={{ width: width }} />
       </Box>
     </ButtonBase>
   );

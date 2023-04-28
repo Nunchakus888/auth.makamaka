@@ -6,6 +6,7 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import EmailIcon from '@mui/icons-material/Email';
 import DsicordIcon from 'ui-component/extended/DsicordIcon';
+import { isDev2 } from '../../../src/layout/NavigationScroll'
 
 const links = [
   {
@@ -45,7 +46,7 @@ const Footer = styled(Stack)(({ theme }) => {
 
 export default () => {
   const theme = useTheme();
-
+  const textContent = isDev2 ?  "Miaohua @2023：Miaohua 版权声明" : "Remagi @2023：Remagi 版权声明"
   return (
     (
       <Footer
@@ -54,10 +55,10 @@ export default () => {
         justifyContent="space-between"
       >
         <Typography variant="subtitle2" component={Link} target="_blank" underline="hover">
-          MAKAMAKA @2023：Makamaka 版权声明
+         {textContent}
         </Typography>
 
-        <Stack gap={2} direction="row">
+        {/* <Stack gap={2} direction="row">
           {
             links.map(i => (
               <IconButton component={Link} href={i.link} target="_blank" size="small">
@@ -67,7 +68,7 @@ export default () => {
               </IconButton>
             ))
           }
-        </Stack>
+        </Stack> */}
       </Footer>
     )
   )
