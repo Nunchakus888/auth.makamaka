@@ -3,8 +3,16 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 // ==============================|| NAVIGATION SCROLL TO TOP ||============================== //
-export const isDev2 = typeof window !== 'undefined' && window.location.hostname?.split('.')[0] === 'dev2'
-export const remagiImg = "https://bkmk.oss-accelerate.aliyuncs.com/41327180-e58e-11ed-971e-c60e34317deb?OSSAccessKeyId=LTAI5tPynodLHeacT1J5SmWh&Expires=317042663466&Signature=I6hSw9yCQRxTdFmf3claU4oFxU4%3D"
+export const domainMap = {
+  'auth.makamaka.io': 'remagi',
+  'auth.remagi.io': 'remagi',
+  'authmiaohua.sensetime.com': 'miaohua',
+}
+export const domain = typeof window !== 'undefined' ? window.location.hostname : '';
+
+export const isMiaohua = domainMap?.[domain] === 'miaohua'
+
+export const remagiImg = "https://bkmk.oss-accelerate.aliyuncs.com/57307170-e5d0-11ed-a210-c60e34317deb?OSSAccessKeyId=LTAI5tPynodLHeacT1J5SmWh&Expires=317042691849&Signature=UWyIl7%2B15cwSrcrEqh2gaWpQQBc%3D"
 export const miaohuaImg =
     'https://bkmk.oss-accelerate.aliyuncs.com/icon%2Fmiaohua.png?OSSAccessKeyId=LTAI5tPynodLHeacT1J5SmWh&Expires=317040945755&Signature=mcp38UBWAZ9%2BoK4AjiCBGL01hwY%3D';
 
@@ -12,7 +20,7 @@ const NavigationScroll = ({ children }) => {
   const location = useLocation();
   const { pathname } = location;
   
-  const tabImg = isDev2 ? miaohuaImg : remagiImg
+  const tabImg = isMiaohua ? miaohuaImg : remagiImg
 
   useEffect(() => {
     window.scrollTo({
@@ -22,7 +30,7 @@ const NavigationScroll = ({ children }) => {
     });
     // tab text according to isdev2
     const title = document.createElement('title')
-    title.innerText = isDev2 ? "Miaohua" : "Remagi"
+    title.innerText = isMiaohua ? "Miaohua" : "Remagi"
     document.head.appendChild(title);
 
     // tab image according to isdev2

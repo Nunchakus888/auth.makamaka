@@ -6,7 +6,7 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import EmailIcon from '@mui/icons-material/Email';
 import DsicordIcon from 'ui-component/extended/DsicordIcon';
-import { isDev2 } from '../../../src/layout/NavigationScroll'
+import { isMiaohua } from '../../../src/layout/NavigationScroll'
 
 const links = [
   {
@@ -46,7 +46,7 @@ const Footer = styled(Stack)(({ theme }) => {
 
 export default () => {
   const theme = useTheme();
-  const textContent = isDev2 ?  "Miaohua @2023：Miaohua 版权声明" : "Remagi @2023：Remagi 版权声明"
+  const textContent = isMiaohua ?  "Miaohua @2023：Miaohua 版权声明" : "Remagi @2023：Remagi 版权声明"
   return (
     (
       <Footer

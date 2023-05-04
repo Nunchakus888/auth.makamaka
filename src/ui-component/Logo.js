@@ -3,7 +3,7 @@ import {Link, useSearchParams} from 'react-router-dom';
 import config from '../config';
 import { Box, ButtonBase } from '@mui/material';
 import {useEffect, useState} from "react";
-import { isDev2, remagiImg, miaohuaImg } from '../../src/layout/NavigationScroll'
+import { isMiaohua, remagiImg, miaohuaImg } from '../../src/layout/NavigationScroll'
 /**
  * if you want to use image instead of <svg> uncomment following.
  *
@@ -15,8 +15,8 @@ import { isDev2, remagiImg, miaohuaImg } from '../../src/layout/NavigationScroll
 // ==============================|| LOGO SVG ||============================== //
 
 const Logo = (props) => {
-  const imgurl = isDev2 ? miaohuaImg : remagiImg
-  const width = isDev2 ? "100px" : "200px"
+  const imgurl = isMiaohua ? miaohuaImg : remagiImg
+  const width = isMiaohua ? "100px" : "200px"
 
   // useEffect(() => {
   //   // if(props.pathname === 'home'){
