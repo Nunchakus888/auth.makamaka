@@ -371,7 +371,7 @@ const FirebaseRegister = ({ ...others }) => {
               )}
             </FormControl>
 
-            <FormControl fullWidth error={Boolean(touched.invite_code && errors.invite_code)} sx={{ ...theme.typography.customInput }}>
+            {/* <FormControl fullWidth error={Boolean(touched.invite_code && errors.invite_code)} sx={{ ...theme.typography.customInput }}>
               <InputLabel htmlFor="outlined-adornment-invite_code-register">
                 <Trans i18nKey="user.register_invite_code">{ defaultLanguage.user.register_invite_code }</Trans>
               </InputLabel>
@@ -389,7 +389,7 @@ const FirebaseRegister = ({ ...others }) => {
                   {errors.invite_code}
                 </FormHelperText>
               )}
-            </FormControl>
+            </FormControl> */}
 
             {strength !== 0 && (
               <FormControl fullWidth>

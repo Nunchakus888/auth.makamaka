@@ -1,6 +1,6 @@
 import { isMiaohua } from '../../../src/layout/NavigationScroll'
 
-const miaohuaTHIRDPARTYLOGINURL = 'http://authmiaohua.sensetime.com//api/v1/login';
+const miaohuaTHIRDPARTYLOGINURL = 'http://authmiaohua.sensetime.com/api/v1/login';
 const remagiTHIRDPARTYLOGINURL = 'https://auth.remagi.io/api/v1/login';
 
 const miaohuaDefaultRedirect = 'http://authmiaohua.sensetime.com';
