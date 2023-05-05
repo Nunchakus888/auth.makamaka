@@ -37,10 +37,11 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Google from 'assets/images/icons/social-google.svg';
 import * as Api from 'api';
 import useToast from 'hooks/useToast';
-import { THIRDPARTYLOGINURL } from '../../../../utils/constant/signupConstant';
+import { THIRDPARTYLOGINURL, defauleRedirect } from '../../../../utils/constant/signupConstant';
 import { Trans } from 'react-i18next';
 import defaultLanguage from 'i18n/defaultLanguage';
 // ============================|| FIREBASE - LOGIN ||============================ //
+
 
 const FirebaseLogin = ({ ...others }) => {
   const theme = useTheme();
@@ -50,7 +51,7 @@ const FirebaseLogin = ({ ...others }) => {
   const [checked, setChecked] = useState(true);
   const toast = useToast();
 
-  const redirect = decodeURIComponent(new URLSearchParams(location.search).get('redirect') || '') || 'https://makamaka.io';
+  const redirect = decodeURIComponent(new URLSearchParams(location.search).get('redirect') || '') || defauleRedirect;
 
   useEffect(() => {
     // document.cookie = `next_url=${redirect}; expires=Tue, 19 Jan 2038 04:14:07 GMT`;

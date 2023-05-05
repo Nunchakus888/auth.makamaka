@@ -1,3 +1,11 @@
+import { isMiaohua } from '../../../src/layout/NavigationScroll'
+
+const miaohuaTHIRDPARTYLOGINURL = 'http://authmiaohua.sensetime.com//api/v1/login';
+const remagiTHIRDPARTYLOGINURL = 'https://auth.remagi.io/api/v1/login';
+
+const miaohuaDefaultRedirect = 'http://authmiaohua.sensetime.com';
+const remagiDefaultRedirect = 'https://auth.remagi.io'
+
 export const commonSignup = [
   'username',
   'email',
@@ -20,5 +28,6 @@ export const UpdateProfilesuccess = "更新成功";
 
 export const UpdateProfilefail = "更新失败";
 
-export const THIRDPARTYLOGINURL = 'https://auth.makamaka.io/api/v1/login';
+export const THIRDPARTYLOGINURL = isMiaohua ? miaohuaTHIRDPARTYLOGINURL : remagiTHIRDPARTYLOGINURL
 
+export const defauleRedirect = isMiaohua ? miaohuaDefaultRedirect : remagiDefaultRedirect
