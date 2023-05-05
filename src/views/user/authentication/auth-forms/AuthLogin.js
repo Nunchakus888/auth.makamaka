@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { isMiaohua } from '../../../../../src/layout/NavigationScroll'
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -40,6 +41,7 @@ import useToast from 'hooks/useToast';
 import { THIRDPARTYLOGINURL, defauleRedirect, cookie } from '../../../../utils/constant/signupConstant';
 import { Trans } from 'react-i18next';
 import defaultLanguage from 'i18n/defaultLanguage';
+import { Fragment } from 'react';
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 
@@ -80,85 +82,89 @@ const FirebaseLogin = ({ ...others }) => {
   return (
     <>
       <Grid key={history.location.key} container direction="column" justifyContent="center" spacing={2}>
-        <Grid item xs={12}>
-          <AnimateButton>
-            <Button
-              disableElevation
-              fullWidth
-              onClick={() => jump2login('google')}
-              size="large"
-              variant="outlined"
-              sx={{
-                color: 'grey.700',
-                backgroundColor: theme.palette.grey[50],
-                borderColor: theme.palette.grey[100]
-              }}
-            >
-              <Box sx={{ mr: { xs: 1, sm: 2, width: 20 } }}>
-                <img src={Google} alt="google" width={16} height={16} style={{ marginRight: matchDownSM ? 8 : 16 }} />
-              </Box>
-              <Trans i18nKey="user.register_google">{defaultLanguage.user.register_google}</Trans>
-            </Button>
-          </AnimateButton>
-          <AnimateButton>
-            <Button
-              disableElevation
-              fullWidth
-              onClick={() => jump2login('discord')}
-              size="large"
-              variant="outlined"
-              sx={{
-                color: 'grey.700',
-                backgroundColor: theme.palette.grey[50],
-                borderColor: theme.palette.grey[100],
-                mt: 2
-              }}
-            >
-              <Box sx={{ mr: { xs: 1, sm: 2, width: 20 } }}>
-                <img
-                  src={
-                    'https://bkmk.oss-accelerate.aliyuncs.com/discord-icon.png?OSSAccessKeyId=LTAI5tPynodLHeacT1J5SmWh&Expires=317031892813&Signature=HWVUkGjrF38Dt8qmSTPBJ2bBAdI%3D'
-                  }
-                  alt="discord"
-                  width={16}
-                  height={16}
-                  style={{ marginRight: matchDownSM ? 8 : 16 }}
-                />
-              </Box>
-              <Trans i18nKey="user.register_discord">{defaultLanguage.user.register_discord}</Trans>
-            </Button>
-          </AnimateButton>
-        </Grid>
-        <Grid item xs={12}>
-          <Box
-            sx={{
-              alignItems: 'center',
-              display: 'flex'
-            }}
-          >
-            <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
+        {!isMiaohua && (
+          <Fragment>
+            <Grid item xs={12}>
+              <AnimateButton>
+                <Button
+                  disableElevation
+                  fullWidth
+                  onClick={() => jump2login('google')}
+                  size="large"
+                  variant="outlined"
+                  sx={{
+                    color: 'grey.700',
+                    backgroundColor: theme.palette.grey[50],
+                    borderColor: theme.palette.grey[100]
+                  }}
+                >
+                  <Box sx={{ mr: { xs: 1, sm: 2, width: 20 } }}>
+                    <img src={Google} alt="google" width={16} height={16} style={{ marginRight: matchDownSM ? 8 : 16 }} />
+                  </Box>
+                  <Trans i18nKey="user.register_google">{defaultLanguage.user.register_google}</Trans>
+                </Button>
+              </AnimateButton>
+              <AnimateButton>
+                <Button
+                  disableElevation
+                  fullWidth
+                  onClick={() => jump2login('discord')}
+                  size="large"
+                  variant="outlined"
+                  sx={{
+                    color: 'grey.700',
+                    backgroundColor: theme.palette.grey[50],
+                    borderColor: theme.palette.grey[100],
+                    mt: 2
+                  }}
+                >
+                  <Box sx={{ mr: { xs: 1, sm: 2, width: 20 } }}>
+                    <img
+                      src={
+                        'https://bkmk.oss-accelerate.aliyuncs.com/discord-icon.png?OSSAccessKeyId=LTAI5tPynodLHeacT1J5SmWh&Expires=317031892813&Signature=HWVUkGjrF38Dt8qmSTPBJ2bBAdI%3D'
+                      }
+                      alt="discord"
+                      width={16}
+                      height={16}
+                      style={{ marginRight: matchDownSM ? 8 : 16 }}
+                    />
+                  </Box>
+                  <Trans i18nKey="user.register_discord">{defaultLanguage.user.register_discord}</Trans>
+                </Button>
+              </AnimateButton>
+            </Grid>
+            <Grid item xs={12}>
+              <Box
+                sx={{
+                  alignItems: 'center',
+                  display: 'flex'
+                }}
+              >
+                <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
 
-            <Button
-              variant="outlined"
-              sx={{
-                cursor: 'unset',
-                m: 2,
-                py: 0.5,
-                px: 7,
-                borderColor: `${theme.palette.grey[100]} !important`,
-                color: `${theme.palette.grey[900]}!important`,
-                fontWeight: 500,
-                borderRadius: `${customization.borderRadius}px`
-              }}
-              disableRipple
-              disabled
-            >
-              <Trans i18nKey="user.register_or">{defaultLanguage.user.register_or}</Trans>
-            </Button>
+                <Button
+                  variant="outlined"
+                  sx={{
+                    cursor: 'unset',
+                    m: 2,
+                    py: 0.5,
+                    px: 7,
+                    borderColor: `${theme.palette.grey[100]} !important`,
+                    color: `${theme.palette.grey[900]}!important`,
+                    fontWeight: 500,
+                    borderRadius: `${customization.borderRadius}px`
+                  }}
+                  disableRipple
+                  disabled
+                >
+                  <Trans i18nKey="user.register_or">{defaultLanguage.user.register_or}</Trans>
+                </Button>
 
-            <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
-          </Box>
-        </Grid>
+                <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
+              </Box>
+            </Grid>
+          </Fragment>
+        )}
         <Grid item xs={12} container alignItems="center" justifyContent="center">
           <Box sx={{ mb: 2 }}>
             <Typography variant="subtitle1">
