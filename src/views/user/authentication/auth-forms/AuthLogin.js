@@ -37,7 +37,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Google from 'assets/images/icons/social-google.svg';
 import * as Api from 'api';
 import useToast from 'hooks/useToast';
-import { THIRDPARTYLOGINURL, defauleRedirect } from '../../../../utils/constant/signupConstant';
+import { THIRDPARTYLOGINURL, defauleRedirect, cookie } from '../../../../utils/constant/signupConstant';
 import { Trans } from 'react-i18next';
 import defaultLanguage from 'i18n/defaultLanguage';
 // ============================|| FIREBASE - LOGIN ||============================ //
@@ -55,7 +55,7 @@ const FirebaseLogin = ({ ...others }) => {
 
   useEffect(() => {
     // document.cookie = `next_url=${redirect}; expires=Tue, 19 Jan 2038 04:14:07 GMT`;
-    document.cookie = `_next_url=${redirect}; expires=0; domain=.makamaka.io; path=/`;
+    document.cookie = `_next_url=${redirect}; expires=0; domain=${cookie}; path=/`;
   }, [redirect]);
 
   const jump2login = (path) => {

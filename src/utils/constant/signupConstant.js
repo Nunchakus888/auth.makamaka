@@ -6,6 +6,9 @@ const remagiTHIRDPARTYLOGINURL = 'https://auth.remagi.io/api/v1/login';
 const miaohuaDefaultRedirect = 'http://authmiaohua.sensetime.com';
 const remagiDefaultRedirect = 'https://auth.remagi.io'
 
+const miaohuaCookie = '.sensetime.com';
+const remagiCookie = '.remagi.io'
+
 export const commonSignup = [
   'username',
   'email',
@@ -31,3 +34,5 @@ export const UpdateProfilefail = "更新失败";
 export const THIRDPARTYLOGINURL = isMiaohua ? miaohuaTHIRDPARTYLOGINURL : remagiTHIRDPARTYLOGINURL
 
 export const defauleRedirect = isMiaohua ? miaohuaDefaultRedirect : remagiDefaultRedirect
+
+export const cookie =  isMiaohua ? miaohuaCookie : remagiCookie
