@@ -35,7 +35,8 @@ const App = () => {
 
     const { code, info, msg } = await Api.signup_verify(payload).catch((e) => e);
     if (code === 0) {
-      location.replace('/paint');
+      // location.replace('/paint');
+      location.replace('/');
     } else {
       toast(msg || Api.ERROR_MESSAGE, { variant: 'error', autoHideDuration: 3000 });
     }

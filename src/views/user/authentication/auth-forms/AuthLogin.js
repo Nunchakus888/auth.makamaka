@@ -101,7 +101,7 @@ const FirebaseLogin = ({ ...others }) => {
                   <Box sx={{ mr: { xs: 1, sm: 2, width: 20 } }}>
                     <img src={Google} alt="google" width={16} height={16} style={{ marginRight: matchDownSM ? 8 : 16 }} />
                   </Box>
-                  <Trans i18nKey="user.register_google">{defaultLanguage.user.register_google}</Trans>
+                  <Trans i18nKey="user.login_google">{defaultLanguage.user.register_google}</Trans>
                 </Button>
               </AnimateButton>
               <AnimateButton>
@@ -129,7 +129,7 @@ const FirebaseLogin = ({ ...others }) => {
                       style={{ marginRight: matchDownSM ? 8 : 16 }}
                     />
                   </Box>
-                  <Trans i18nKey="user.register_discord">{defaultLanguage.user.register_discord}</Trans>
+                  <Trans i18nKey="user.login_discord">{defaultLanguage.user.register_discord}</Trans>
                 </Button>
               </AnimateButton>
             </Grid>
