@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { isMiaohua } from '../../../../../src/layout/NavigationScroll'
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -137,19 +138,23 @@ const FirebaseRegister = ({ ...others }) => {
   };
 
   useEffect(() => {
-    changePassword('123456');
+    // changePassword('123456');
     //监测URL中是否包含其他信息
     const urls = new URLSearchParams(history.location.search);
     setLogintype(urls.get('login'));
     if(urls.get('login') === '1'){
-      location.replace('/paint');
+      // location.replace('/paint');
+      location.replace('/');
     }
   }, []);
 
   return (
     <>
       <Grid container direction="column" justifyContent="center" spacing={2}>
-        <Grid item xs={12}>
+        {
+          !isMiaohua && (
+            <Fragment>
+              <Grid item xs={12}>
           <AnimateButton>
             <Button
               variant="outlined"
@@ -187,30 +192,33 @@ const FirebaseRegister = ({ ...others }) => {
               <Trans i18nKey="user.register_discord">{ defaultLanguage.user.register_discord }</Trans>
             </Button>
           </AnimateButton>
-        </Grid>
-        <Grid item xs={12}>
-          <Box sx={{ alignItems: 'center', display: 'flex' }}>
-            <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
-            <Button
-              variant="outlined"
-              sx={{
-                cursor: 'unset',
-                m: 2,
-                py: 0.5,
-                px: 7,
-                borderColor: `${theme.palette.grey[100]} !important`,
-                color: `${theme.palette.grey[900]}!important`,
-                fontWeight: 500,
-                borderRadius: `${customization.borderRadius}px`
-              }}
-              disableRipple
-              disabled
-            >
-              <Trans i18nKey="user.register_or">{ defaultLanguage.user.register_or }</Trans>
-            </Button>
-            <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
-          </Box>
-        </Grid>
+              </Grid>
+              <Grid item xs={12}>
+                <Box sx={{ alignItems: 'center', display: 'flex' }}>
+                  <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
+                  <Button
+                    variant="outlined"
+                    sx={{
+                      cursor: 'unset',
+                      m: 2,
+                      py: 0.5,
+                      px: 7,
+                      borderColor: `${theme.palette.grey[100]} !important`,
+                      color: `${theme.palette.grey[900]}!important`,
+                      fontWeight: 500,
+                      borderRadius: `${customization.borderRadius}px`
+                    }}
+                    disableRipple
+                    disabled
+                  >
+                    <Trans i18nKey="user.register_or">{ defaultLanguage.user.register_or }</Trans>
+                  </Button>
+                  <Divider sx={{ flexGrow: 1 }} orientation="horizontal" />
+                </Box>
+              </Grid>
+            </Fragment>
+          )
+        }
         <Grid item xs={12} container alignItems="center" justifyContent="center">
           <Box sx={{ mb: 2 }}>
             <Typography variant="subtitle1">
