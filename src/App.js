@@ -2,6 +2,7 @@ import { useSelector } from 'react-redux';
 
 import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline, StyledEngineProvider } from '@mui/material';
+import { jumpLink } from '../src/views/user/authentication/auth-forms/AuthRegister'
 
 import './i18n';
 
@@ -36,7 +37,7 @@ const App = () => {
     const { code, info, msg } = await Api.signup_verify(payload).catch((e) => e);
     if (code === 0) {
       // location.replace('/paint');
-      location.replace('/');
+      location.replace(jumpLink);
     } else {
       toast(msg || Api.ERROR_MESSAGE, { variant: 'error', autoHideDuration: 3000 });
     }

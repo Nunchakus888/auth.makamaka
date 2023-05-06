@@ -3,6 +3,14 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { isMiaohua } from '../../../../../src/layout/NavigationScroll'
 
+const signupJumpLink = {
+  'auth.remagi.io': "https://www.remagi.io",
+  'authmiaohua.sensetime.com': "http://miaohua.sensetime.com",
+}
+
+const domain = typeof window !== 'undefined' ? window.location.hostname : '';
+export const jumpLink = signupJumpLink?.[domain] || '/'
+
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import {
@@ -144,7 +152,7 @@ const FirebaseRegister = ({ ...others }) => {
     setLogintype(urls.get('login'));
     if(urls.get('login') === '1'){
       // location.replace('/paint');
-      location.replace('/');
+      location.replace(jumpLink);
     }
   }, []);
 
