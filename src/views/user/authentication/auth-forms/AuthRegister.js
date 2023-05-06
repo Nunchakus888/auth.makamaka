@@ -124,11 +124,11 @@ const FirebaseRegister = ({ ...others }) => {
   };
 
   const googleHandler = () => {
-    window.location.href = THIRDPARTYLOGINURL + '/login/google';
+    window.location.href = THIRDPARTYLOGINURL + '/google';
   };
 
   const discordHandler = () => {
-    window.location.href = THIRDPARTYLOGINURL + '/login/discord';
+    window.location.href = THIRDPARTYLOGINURL + '/discord';
   };
 
   const handleClickShowPassword = () => {
