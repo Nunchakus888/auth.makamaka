@@ -48,7 +48,7 @@ import CloseIcon from '@mui/icons-material/Close';
 // assets
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import * as Api from "../../../../api/user";
+import * as Api from "../../../../api";
 import history from "../../../../routes/history";
 import useToast from "../../../../hooks/useToast";
 import {THIRDPARTYLOGINURL} from "../../../../utils/constant/signupConstant";
@@ -278,7 +278,7 @@ const FirebaseRegister = ({ ...others }) => {
             values['provider_user_login'] = urls.get('provider_user_login');
             values['invite_code'] = urls.get('invite_code');
           }
-          const {code} = await Api.signup(values).catch(e => e);
+          const { code, msg } = await Api.signup(values).catch(e => e);
           try {
             if (code === 0){
               //跳转到邮箱验证界面
@@ -294,6 +294,8 @@ const FirebaseRegister = ({ ...others }) => {
               toast("邮箱不通，发送邮件失败" || Api.ERROR_MESSAGE, { variant: 'error' });
             }else if(code === 112){
               toast("邀请码不对" || Api.ERROR_MESSAGE, { variant: 'error' });
+            } else {
+              toast(msg || Api.ERROR_MESSAGE, { variant: 'error' });
             }
             if (scriptedRef.current) {
               setStatus({ success: true });
