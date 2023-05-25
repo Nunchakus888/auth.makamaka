@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: makaauthfd
+  labels:
+    app: makaauthfd
+spec:
+  selector:
+    matchLabels:
+      app: makaauthfd
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: makaauthfd
+    spec:
+      containers:
+        - name: makaauthfd
+          image: registry.sensetime.com/xlab/maka/makaauthfd:v1.0.0-test
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          env:
+            - name: TZ
+              value: "Asia/Shanghai"
+          volumeMounts:
+            - name: nginx-conf
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx-k8s.conf
+          resources:
+            limits:
+              memory: "1Gi"
+              cpu: "1"
+      volumes:
+        - name: nginx-conf
+          configMap:
+            name: auth-nginx-conf
+      tolerations:
+        - key: "project"
+          value: "miaohua"
+          operator: "Equal"
+          effect: "NoExecute"
