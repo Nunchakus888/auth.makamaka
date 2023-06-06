@@ -42,6 +42,7 @@ import { THIRDPARTYLOGINURL, defauleRedirect, cookie } from '../../../../utils/c
 import { Trans } from 'react-i18next';
 import defaultLanguage from 'i18n/defaultLanguage';
 import { Fragment } from 'react';
+import redirectUrlList from 'utils/redirectUrlList';
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 
@@ -56,8 +57,18 @@ const FirebaseLogin = ({ ...others }) => {
   const redirect = decodeURIComponent(new URLSearchParams(location.search).get('redirect') || '') || defauleRedirect;
 
   useEffect(() => {
-    // document.cookie = `next_url=${redirect}; expires=Tue, 19 Jan 2038 04:14:07 GMT`;
-    document.cookie = `_next_url=${redirect}; expires=0; domain=${cookie}; path=/`;
+    if (redirect) {
+      const isRedirect = redirectUrlList.some((reg) => reg.test(redirect));
+      if (!isRedirect) {
+        toast('Redirect url is not allowed', { variant: 'error', autoHideDuration: 1000 });
+        setTimeout(() => {
+          history.replace('/');
+        }, 1000);
+      } else {
+        // document.cookie = `next_url=${redirect}; expires=Tue, 19 Jan 2038 04:14:07 GMT`;
+        document.cookie = `_next_url=${redirect}; expires=0; domain=${cookie}; path=/`;
+      }
+    }
   }, [redirect]);
 
   const jump2login = (path) => {
