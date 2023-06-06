@@ -4,7 +4,7 @@
 注意url encode：
 
 ```javascript
-// 配置 redirectUrl 作为登录后的跳转地址
+// 配置 redirectUrl 作为登录后的跳回地址
 export default function Login({ children }) {
   const redirect = `https://auth.makamaka.io?redirect=${encodeURIComponent(window.location?.href) }`
   return (
@@ -21,13 +21,14 @@ export default function Login({ children }) {
 
 ```javascript
 // 二三级域名
-/https?:\/\/(www|dev|test|stage|preview|miaohua)?\.?(remagi|revivai|sensetime)\.(com|io|ai)/,
+/https?:\/\/(www|dev|test|stage|preview|miaohua)?\.?(remagi|revivai|sensetime)\.(com|io|ai)/
 
 // 四级域名
 /https?:\/\/[a-zA-Z0-9-]+\.miaohua\.sensetime\.com/
 
 // 本地开发
 /https?:\/\/local(-miaohua)?\.sensetime\.com(:\d+)?/
+
 
 ```
 
@@ -52,12 +53,12 @@ export default function Login({ children }) {
 | [http://test.revivai.com](http://test.revivai.com) |  |  |
 | [http://preview.revivai.com](http://preview.revivai.com) |  |  |
 
-**请注意，本地URL的端口号是根据示例提供的内容进行了假设，如果实际情况不同，请根据实际情况进行修改。
-如有增删，需要在当前项目中的`redirectUrlList`进行同步修改。**
+**请注意，如有增删，需要在当前项目中的`redirectUrlList`进行同步修改。**
 
 
 
-### 环境
+
+#### 工程环境
 
 * node >=14.0.0 安装node https://nodejs.org/en/
 * 使用yarn包管理器，安装 yarn
@@ -85,13 +86,25 @@ yarn start
 
 ```
 
-### 代码打包
+#### 代码打包
 
 ```shell
 
 yarn build
 
 ```
+
+#### 生产发布
+
+静态资源覆盖的方式发布，客户端打包后直接push build目录下的文件到服务器即可
+```shell
+yarn build
+git add .
+git commit -am 'xxx'
+git push
+
+```
+
 
 ### 接口代理配置
 
