@@ -27,7 +27,7 @@ export default function Login({ children }) {
 /https?:\/\/[a-zA-Z0-9-]+\.miaohua\.sensetime\.com/
 
 // 本地开发
-/https?:\/\/local(-miaohua)?\.sensetime\.com(:\d+)?/
+/https?:\/\/(local|local\.miaohua|local-miaohua)\.(remagi|revivai|sensetime)\.(com|io|ai)(:[\d]{2,5})?/
 
 
 ```
