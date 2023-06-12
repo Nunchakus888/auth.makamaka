@@ -38,7 +38,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Google from 'assets/images/icons/social-google.svg';
 import * as Api from 'api';
 import useToast from 'hooks/useToast';
-import { THIRDPARTYLOGINURL, defauleRedirect, cookie } from '../../../../utils/constant/signupConstant';
+import { THIRDPARTYLOGINURL, defauleRedirect, cookie } from 'utils/constant/signupConstant';
 import { Trans } from 'react-i18next';
 import defaultLanguage from 'i18n/defaultLanguage';
 import { Fragment } from 'react';
@@ -54,22 +54,28 @@ const FirebaseLogin = ({ ...others }) => {
   const [checked, setChecked] = useState(true);
   const toast = useToast();
 
-  const redirect = decodeURIComponent(new URLSearchParams(location.search).get('redirect') || '') || defauleRedirect;
+  const [redirect, setRedirect] = useState(() => decodeURIComponent(new URLSearchParams(location.search).get('redirect') || '') || defauleRedirect);
 
   useEffect(() => {
-    if (redirect) {
-      const isRedirect = redirectUrlList.some((reg) => reg.test(redirect));
+    invalidRedirect(redirect);
+  }, [redirect]);
+
+  const invalidRedirect = (url) => {
+    if (url) {
+      const isRedirect = redirectUrlList.some((reg) => reg.test(url));
       if (!isRedirect) {
-        toast('Redirect url is not allowed', { variant: 'error', autoHideDuration: 1000 });
+        toast('Redirect url is not allowed', { variant: 'error', autoHideDuration: 2000 });
+        setRedirect('');
         setTimeout(() => {
           history.replace('/');
         }, 1000);
+        return !0;
       } else {
         // document.cookie = `next_url=${redirect}; expires=Tue, 19 Jan 2038 04:14:07 GMT`;
-        document.cookie = `_next_url=${redirect}; expires=0; domain=${cookie}; path=/`;
+        document.cookie = `_next_url=${url}; expires=0; domain=${cookie}; path=/`;
       }
     }
-  }, [redirect]);
+  };
 
   const jump2login = (path) => {
     // 跳转到外链 —> 重定向到注册页面
@@ -203,11 +209,10 @@ const FirebaseLogin = ({ ...others }) => {
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           const { email, password } = values;
-          const { code, info, msg } = await Api.login(email, password, checked).catch((e) => e);
+          const { code, msg } = await Api.login(email, password, checked).catch((e) => e);
           if (code === 0) {
-            location.replace(redirect);
+            !invalidRedirect(redirect) && location.replace(redirect);
           } else {
-            // if (code === 101 || code === 102) 什么逻辑？
             toast(msg || Api.ERROR_MESSAGE, { variant: 'error' });
           }
 
