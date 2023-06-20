@@ -200,7 +200,6 @@ const FirebaseLogin = ({ ...others }) => {
         }}
         validationSchema={Yup.object().shape({
           email: Yup.string()
-            .email('Must be a valid email')
             .max(255)
             .required(<Trans i18nKey="user.login_username_error">{defaultLanguage.user.login_username_error}</Trans>),
           password: Yup.string()
