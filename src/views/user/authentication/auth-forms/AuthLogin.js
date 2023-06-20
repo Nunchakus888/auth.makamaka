@@ -66,9 +66,6 @@ const FirebaseLogin = ({ ...others }) => {
       if (!isRedirect) {
         toast('Redirect url is not allowed', { variant: 'error', autoHideDuration: 2000 });
         setRedirect('');
-        setTimeout(() => {
-          history.replace('/');
-        }, 1000);
         return !0;
       } else {
         // document.cookie = `next_url=${redirect}; expires=Tue, 19 Jan 2038 04:14:07 GMT`;
