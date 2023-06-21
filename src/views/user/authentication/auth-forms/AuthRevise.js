@@ -35,8 +35,8 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import * as Api from "../../../../api/user";
 
 import Google from 'assets/images/icons/social-google.svg';
-import {useLocation} from "react-router";
-import {useSearchParams} from "react-router-dom";
+import { useLocation } from "react-router";
+import { useSearchParams } from "react-router-dom";
 import useToast from "../../../../hooks/useToast";
 
 // ============================|| FIREBASE - Revise ||============================ //
@@ -81,13 +81,12 @@ const FirebaseRevise = ({ ...others }) => {
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           //get params info
           const token = params.get('token');
-          if(token) values['token'] = token;
-          const {code, info, msg} = await Api.reset_verified(values).catch(e => e);
-          if(code === 0){
-            location.replace("/login");
-          }else {
+          if (token) values['token'] = token;
+          const { code, info, msg } = await Api.reset_verified(values).catch(e => e);
+          if (code === 0) {
+            location.href = "/login";
+          } else {
             toast(msg || "修改失败", { variant: 'error' });
-
           }
           try {
             if (scriptedRef.current) {
