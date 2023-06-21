@@ -28,9 +28,17 @@ const App = () => {
   const toast = useToast();
 
   const init = async () => {
+    const redirect = decodeURIComponent(new URLSearchParams(location.search).get('redirect') || '');
+
     const payload = {};
     for (const [k, v] of params.entries()) {
       payload[k] = v;
+    }
+
+    if (payload.redirect) {
+      sessionStorage.setItem('redirect', redirect);
+      // 三方登录需要
+      document.cookie = `_next_url=${redirect}; expires=0; domain=${document.domain}; path=/`;
     }
     if (!payload.token || payload.token === 'None' || window.location?.pathname === '/reset_verified') return;
 

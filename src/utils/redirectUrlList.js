@@ -43,3 +43,23 @@ const redirectUrlList = [
 ];
 
 export default redirectUrlList;
+
+const domainsList = [
+  /.*?(\.sensetime\.com)+/,
+  /**
+   * xxx.sensetime.com
+   * xxx.xxx.sensetime.com
+   */
+  /.*?(\.(remagi|revivai|makamaka)+\.(com|io|ai)+)+/,
+  /**
+   * xxx.remagi.io
+   * xxx.revivai.com
+   */
+];
+
+
+export const domains4cookie = domainsList.find(i => {
+  const [_, domain] = location.host.match(i) || [];
+  if (domain) return domain
+})
+

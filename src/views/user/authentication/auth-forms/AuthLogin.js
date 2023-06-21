@@ -54,22 +54,15 @@ const FirebaseLogin = ({ ...others }) => {
   const [checked, setChecked] = useState(true);
   const toast = useToast();
 
-  const [redirect, setRedirect] = useState(() => decodeURIComponent(new URLSearchParams(location.search).get('redirect') || '') || defauleRedirect);
+  const redirect = sessionStorage.getItem('redirect');
 
-  useEffect(() => {
-    invalidRedirect(redirect);
-  }, [redirect]);
 
   const invalidRedirect = (url) => {
     if (url) {
       const isRedirect = redirectUrlList.some((reg) => reg.test(url));
       if (!isRedirect) {
         toast('Redirect url is not allowed', { variant: 'error', autoHideDuration: 2000 });
-        setRedirect('');
         return !0;
-      } else {
-        // document.cookie = `next_url=${redirect}; expires=Tue, 19 Jan 2038 04:14:07 GMT`;
-        document.cookie = `_next_url=${url}; expires=0; domain=${cookie}; path=/`;
       }
     }
   };

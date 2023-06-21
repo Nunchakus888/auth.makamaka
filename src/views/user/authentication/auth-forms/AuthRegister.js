@@ -236,7 +236,7 @@ const FirebaseRegister = ({ ...others }) => {
         </Grid>
       </Grid>
 
-      <BootstrapDialog
+      {/*<BootstrapDialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
@@ -254,7 +254,7 @@ const FirebaseRegister = ({ ...others }) => {
             <Trans i18nKey="user.register_agree_bottom">{ defaultLanguage.user.register_agree_bottom }</Trans>
           </Button>
         </DialogActions>
-      </BootstrapDialog>
+      </BootstrapDialog>*/}
 
       <Formik
         initialValues={{
@@ -426,7 +426,7 @@ const FirebaseRegister = ({ ...others }) => {
               </FormControl>
             )}
 
-            <Grid container alignItems="center" justifyContent="space-between">
+            {/*<Grid container alignItems="center" justifyContent="space-between">
               <Grid item>
                 <FormControlLabel
                   control={
@@ -442,7 +442,7 @@ const FirebaseRegister = ({ ...others }) => {
                   }
                 />
               </Grid>
-            </Grid>
+            </Grid>*/}
             {errors.submit && (
               <Box sx={{ mt: 3 }}>
                 <FormHelperText error>{errors.submit}</FormHelperText>

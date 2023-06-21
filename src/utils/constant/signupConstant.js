@@ -36,3 +36,5 @@ export const THIRDPARTYLOGINURL = isMiaohua ? miaohuaTHIRDPARTYLOGINURL : remagi
 export const defauleRedirect = isMiaohua ? miaohuaDefaultRedirect : remagiDefaultRedirect;
 
 export const cookie = isMiaohua ? miaohuaCookie : remagiCookie;
+
+export const cookieDomain = /.*?(\.sensetime\.com)+/
