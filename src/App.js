@@ -32,7 +32,7 @@ const App = () => {
     for (const [k, v] of params.entries()) {
       payload[k] = v;
     }
-    if (!payload.token || payload.token === 'None' || history.location?.pathname === '/reset_verified') return;
+    if (!payload.token || payload.token === 'None' || window.location?.pathname === '/reset_verified') return;
 
     const { code, info, msg } = await Api.signup_verify(payload).catch((e) => e);
     if (code === 0) {
