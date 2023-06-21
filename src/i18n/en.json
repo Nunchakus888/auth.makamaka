@@ -83,7 +83,7 @@
         "login_discord": "Sign in with Discord",
         "login_or": "OR",
         "login_tips2":"Sign in with Email address",
-        "login_username": "Email Address / Username",
+        "login_username": "Email Address",
         "login_username_error": "Email or Username is required",
         "login_password":"Password",
         "login_password_error":"Password is required",
