@@ -41,9 +41,6 @@ const Login = () => {
                           <Typography color={theme.palette.secondary.main} gutterBottom variant={matchDownSM ? 'h3' : 'h2'}>
                             <Trans i18nKey="user.login_tips1">{ defaultLanguage.user.login_tips1 }</Trans>
                           </Typography>
-                          <Typography variant="caption" fontSize="16px" textAlign={matchDownSM ? 'center' : 'inherit'}>
-                            <Trans i18nKey="user.register_tips1">{ defaultLanguage.user.register_tips1 }</Trans>
-                          </Typography>
                         </Stack>
                       </Grid>
                     </Grid>

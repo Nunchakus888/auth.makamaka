@@ -274,20 +274,7 @@ const FirebaseLogin = ({ ...others }) => {
                 </FormHelperText>
               )}
             </FormControl>
-            <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
-              <FormControlLabel
-                control={
-                  <Checkbox
-                    checked={checked}
-                    onChange={(event) => {
-                      setChecked(event.target.checked);
-                    }}
-                    name="checked"
-                    color="primary"
-                  />
-                }
-                label={<Trans i18nKey="user.login_rm">{defaultLanguage.user.login_rm}</Trans>}
-              />
+            <Stack direction="row" alignItems="center" justifyContent="right" spacing={1}>
               <Typography onClick={handlerForget} variant="subtitle1" color="secondary" sx={{ textDecoration: 'none', cursor: 'pointer' }}>
                 <Trans i18nKey="user.login_fp">{defaultLanguage.user.login_fp}</Trans>
               </Typography>
