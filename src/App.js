@@ -37,7 +37,9 @@ const App = () => {
     const { code, info, msg } = await Api.signup_verify(payload).catch((e) => e);
     if (code === 0) {
       // location.replace('/paint');
-      location.replace(jumpLink);
+      // location.replace(jumpLink);
+      //校验完需要登录
+      toast('邮箱验证成功，请登录！');
     } else {
       toast(msg || Api.ERROR_MESSAGE, { variant: 'error', autoHideDuration: 3000 });
     }
