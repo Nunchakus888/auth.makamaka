@@ -24,7 +24,7 @@ const Logo = (props) => {
   //   // }
   // },[imgurl]);
   return (
-    <ButtonBase disableRipple component={Link} to={config.defaultPath}>
+    <ButtonBase disabled>
       <Box sx={{ display: 'flex', gap: '5px', alignItems: 'center' }}>
         {/* eslint-disable-next-line jsx-a11y/alt-text */}
         <img src={imgurl} style={{ width: width }} />

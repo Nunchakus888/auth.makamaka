@@ -10,7 +10,7 @@ import AuthCardWrapper from '../AuthCardWrapper';
 import AuthLogin from '../auth-forms/AuthLogin';
 import Logo from 'ui-component/Logo';
 import PageFooter from 'ui-component/cards/PageFooter';
-import {Trans} from 'react-i18next';
+import { Trans } from 'react-i18next';
 import defaultLanguage from 'i18n/defaultLanguage';
 
 // assets
@@ -30,16 +30,14 @@ const Login = () => {
               <AuthCardWrapper>
                 <Grid container spacing={2} alignItems="center" justifyContent="center">
                   <Grid item sx={{ mb: 3 }}>
-                    <Link to="#">
-                      <Logo />
-                    </Link>
+                    <Logo />
                   </Grid>
                   <Grid item xs={12}>
                     <Grid container direction={matchDownSM ? 'column-reverse' : 'row'} alignItems="center" justifyContent="center">
                       <Grid item>
                         <Stack alignItems="center" justifyContent="center" spacing={1}>
                           <Typography color={theme.palette.secondary.main} gutterBottom variant={matchDownSM ? 'h3' : 'h2'}>
-                            <Trans i18nKey="user.login_tips1">{ defaultLanguage.user.login_tips1 }</Trans>
+                            <Trans i18nKey="user.login_tips1">{defaultLanguage.user.login_tips1}</Trans>
                           </Typography>
                         </Stack>
                       </Grid>
@@ -54,7 +52,7 @@ const Login = () => {
                   <Grid item xs={12}>
                     <Grid item container direction="column" alignItems="center" xs={12}>
                       <Typography component={Link} to="/register" variant="subtitle1" sx={{ textDecoration: 'none' }}>
-                        <Trans i18nKey="user.login_tosignin">{ defaultLanguage.user.login_tosignin }</Trans>
+                        <Trans i18nKey="user.login_tosignin">{defaultLanguage.user.login_tosignin}</Trans>
                       </Typography>
                     </Grid>
                   </Grid>
