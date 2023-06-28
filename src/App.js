@@ -20,6 +20,7 @@ import { useEffect } from 'react';
 import useToast from './hooks/useToast';
 
 import PageFooter from 'ui-component/cards/PageFooter';
+import { domains4cookie } from './utils/redirectUrlList';
 // ==============================|| APP ||============================== //
 
 const App = () => {
@@ -37,8 +38,10 @@ const App = () => {
 
     if (payload.redirect) {
       sessionStorage.setItem('redirect', redirect);
+      console.log('----domain', domain);
+      const domain = domains4cookie(payload.redirect);
       // 三方登录需要
-      document.cookie = `_next_url=${redirect}; expires=0; domain=${document.domain}; path=/`;
+      document.cookie = `_next_url=${redirect}; expires=0; domain=${domain}; path=/`;
     }
     if (!payload.token || payload.token === 'None' || window.location?.pathname === '/reset_verified') return;
 

@@ -45,21 +45,33 @@ const redirectUrlList = [
 export default redirectUrlList;
 
 const domainsList = [
-  /.*?(\.sensetime\.com)+/,
   /**
    * xxx.sensetime.com
    * xxx.xxx.sensetime.com
    */
-  /.*?(\.(remagi|revivai|makamaka)+\.(com|io|ai)+)+/,
+  /([\w\d]+)(.*\.sensetime\.com)+/g,
   /**
    * xxx.remagi.io
    * xxx.revivai.com
    */
+  /.*?(\.(remagi|revivai|makamaka)+\.(com|io|ai)+)+/,
 ];
 
 
-export const domains4cookie = domainsList.find(i => {
-  const [_, domain] = location.host.match(i) || [];
-  if (domain) return domain
-})
+export const domains4cookie = (url) => {
+  for (const i of domainsList) {
+    /**
+     * _ = 'test.miaohua.sensetime.com'
+     * _ = 'miaohua.sensetime.com'
+     * _ = 'xxx.remagi.com'
+     * subDomain = 'xxx'
+     * suffixDomain = '.sensetime.com'
+     */
+    const [_, subDomain, domainAndTopDomain] = url.match(i) || [];
+    if (_) {
+      return [subDomain, domainAndTopDomain];
+    }
+  }
+};
+
 
