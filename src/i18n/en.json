@@ -73,7 +73,7 @@
         "register_invite_code_error": "Code is required",
         "register_aw1": "Agree with  ",
         "register_aw2": {
-          "user_agreement": "Agree with Terms",
+          "user_agreement": "Terms",
           "and": "&",
           "privacy_policy": "Conditions"
         },
