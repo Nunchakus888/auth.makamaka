@@ -22,6 +22,13 @@ WORKDIR /app
 
 COPY --from=builder /app/build /usr/share/nginx/html
 COPY --from=builder /app/nginx.conf /etc/nginx/
+
+# 本地编译
+# FROM registry.sensetime.com/xlab/maka/nginx:1.24 AS runner
+# COPY build /usr/share/nginx/html
+# COPY nginx.conf /etc/nginx/
+# 本地编译
+
 EXPOSE 80
 
 CMD ["nginx", "-g", "daemon off;"]
