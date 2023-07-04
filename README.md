@@ -92,6 +92,8 @@ yarn start
 
 yarn build
 
+remagi打包需要使用不同环境变量：./build-remagi.sh
+
 ```
 
 #### 生产发布
