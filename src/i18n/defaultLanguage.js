@@ -25,7 +25,7 @@ const options = [
   }
 ];
 
-// 默认语言采用英文
+// 默认语言
 export const code = 'en';
 
 export default {

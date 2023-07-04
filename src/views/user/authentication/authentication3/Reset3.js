@@ -1,19 +1,11 @@
-import {Link, Outlet} from 'react-router-dom';
-
-// material-ui
 import { useTheme } from '@mui/material/styles';
 import { Divider, Grid, Stack, Typography, useMediaQuery } from '@mui/material';
-
-// project imports
 import AuthWrapper1 from '../AuthWrapper1';
 import AuthCardWrapper from '../AuthCardWrapper';
 import AuthReset from '../auth-forms/AuthReset';
 import Logo from 'ui-component/Logo';
-import PageFooter from 'ui-component/cards/PageFooter';
-
-// assets
-
-// ================================|| AUTH3 - Reset ||================================ //
+import defaultLanguage from 'i18n/defaultLanguage';
+import { Trans } from 'react-i18next';
 
 const Reset = () => {
   const theme = useTheme();
@@ -28,17 +20,17 @@ const Reset = () => {
               <AuthCardWrapper>
                 <Grid container spacing={2} alignItems="center" justifyContent="center">
                   <Grid item sx={{ mb: 3 }}>
-                      <Logo />
+                    <Logo />
                   </Grid>
                   <Grid item xs={12}>
                     <Grid container direction={matchDownSM ? 'column-reverse' : 'row'} alignItems="center" justifyContent="center">
                       <Grid item>
                         <Stack alignItems="center" justifyContent="center" spacing={1}>
                           <Typography color={theme.palette.secondary.main} gutterBottom variant={matchDownSM ? 'h3' : 'h2'}>
-                            Reset Password
+                            <Trans i18nKey="user.reset_title">{defaultLanguage.user.reset_title}</Trans>
                           </Typography>
                           <Typography variant="caption" fontSize="16px" textAlign={matchDownSM ? 'center' : 'inherit'}>
-                            Please enter your email. We will send an email to reset your password.
+                            <Trans i18nKey="user.reset_info">{defaultLanguage.user.reset_info}</Trans>
                           </Typography>
                         </Stack>
                       </Grid>

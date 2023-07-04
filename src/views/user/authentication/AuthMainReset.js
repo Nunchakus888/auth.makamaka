@@ -1,15 +1,10 @@
-import {Link, Outlet} from 'react-router-dom';
-
+import {Outlet} from 'react-router-dom';
 // material-ui
 import { useTheme } from '@mui/material/styles';
-import { Divider, Grid, Stack, Typography, useMediaQuery } from '@mui/material';
+import { useMediaQuery } from '@mui/material';
 
 // project imports
 import AuthWrapper1 from '../authentication/AuthWrapper1';
-
-// assets
-
-// ================================|| AUTH3 - Reset ||================================ //
 
 const AuthReset = () => {
   const theme = useTheme();

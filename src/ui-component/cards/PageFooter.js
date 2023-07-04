@@ -1,12 +1,12 @@
 // material-ui
-import {styled, useTheme} from '@mui/material/styles';
-import { Link, Typography, Stack, IconButton } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import { Link, Typography, Stack } from '@mui/material';
 
 import FacebookIcon from '@mui/icons-material/Facebook';
 import TwitterIcon from '@mui/icons-material/Twitter';
 import EmailIcon from '@mui/icons-material/Email';
 import DsicordIcon from 'ui-component/extended/DsicordIcon';
-import { isMiaohua } from '../../../src/layout/NavigationScroll'
+import { websiteConfig } from 'utils/constant/websiteConstant';
 
 const links = [
   {
@@ -45,8 +45,7 @@ const Footer = styled(Stack)(({ theme }) => {
 });
 
 export default () => {
-  const theme = useTheme();
-  const textContent = isMiaohua ?  "Miaohua @2023：Miaohua 版权声明" : "Remagi @2023：Remagi 版权声明"
+  const textContent = websiteConfig.copyright;
   return (
     (
       <Footer
@@ -55,20 +54,8 @@ export default () => {
         justifyContent="space-between"
       >
         <Typography variant="subtitle2" component={Link} target="_blank" underline="hover">
-         {textContent}
+          {textContent}
         </Typography>
-
-        {/* <Stack gap={2} direction="row">
-          {
-            links.map(i => (
-              <IconButton component={Link} href={i.link} target="_blank" size="small">
-                {
-                  i.icon
-                }
-              </IconButton>
-            ))
-          }
-        </Stack> */}
       </Footer>
     )
   )

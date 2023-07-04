@@ -1,9 +1,8 @@
 // material-ui
-import {Link, useSearchParams} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import config from '../config';
 import { Box, ButtonBase } from '@mui/material';
-import {useEffect, useState} from "react";
-import { isMiaohua, remagiImg, miaohuaImg } from '../../src/layout/NavigationScroll'
+import { websiteConfig } from 'utils/constant/websiteConstant';
 /**
  * if you want to use image instead of <svg> uncomment following.
  *
@@ -15,19 +14,14 @@ import { isMiaohua, remagiImg, miaohuaImg } from '../../src/layout/NavigationScr
 // ==============================|| LOGO SVG ||============================== //
 
 const Logo = (props) => {
-  const imgurl = isMiaohua ? miaohuaImg : remagiImg
-  const width = isMiaohua ? "100px" : "200px"
+  const imgurl = websiteConfig.logo;
+  const width = websiteConfig.logoWidth;
 
-  // useEffect(() => {
-  //   // if(props.pathname === 'home'){
-  //   //   setImgurl('//bkmk.oss-accelerate.aliyuncs.com/logo_white.png?OSSAccessKeyId=LTAI5tPynodLHeacT1J5SmWh&Expires=317033253809&Signature=nTrpub5D0Oy3AVcVopC8Vl2Nicg%3D')
-  //   // }
-  // },[imgurl]);
   return (
     <ButtonBase disabled>
       <Box sx={{ display: 'flex', gap: '5px', alignItems: 'center' }}>
         {/* eslint-disable-next-line jsx-a11y/alt-text */}
-        <img src={imgurl} style={{ width: width }} />
+        <img src={imgurl} alt='logo' style={{ width: width }} />
       </Box>
     </ButtonBase>
   );

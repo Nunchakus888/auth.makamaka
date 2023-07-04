@@ -94,7 +94,10 @@
         "login_rm": "Remember me",
         "login_fp": "Forgot Password?",
         "login_si": "Sign in",
-        "login_tosignin": "Don't have an account?"
+        "login_tosignin": "Don't have an account?",
+        "reset_title": "Reset Password",
+        "reset_info": "Please enter your email. We will send an email to reset your password.",
+        "dont_receive_email": "Don&apos;t receive an mail?"
       },
       "painting": {
         "txt2img": "t2i",

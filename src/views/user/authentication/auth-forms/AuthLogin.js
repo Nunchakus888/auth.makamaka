@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { isMiaohua } from '../../../../../src/layout/NavigationScroll'
-
+import { useSelector } from 'react-redux';
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import {
@@ -36,16 +34,16 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import Google from 'assets/images/icons/social-google.svg';
+import Discord from 'assets/images/icons/social-discord.svg';
 import * as Api from 'api';
 import useToast from 'hooks/useToast';
-import { THIRDPARTYLOGINURL, defauleRedirect, cookie } from 'utils/constant/signupConstant';
+import { websiteConfig, website } from '../../../../utils/constant/websiteConstant';
 import { Trans } from 'react-i18next';
 import defaultLanguage from 'i18n/defaultLanguage';
 import { Fragment } from 'react';
 import redirectUrlList from 'utils/redirectUrlList';
+import { Link } from 'react-router-dom';
 // ============================|| FIREBASE - LOGIN ||============================ //
-
-
 const FirebaseLogin = ({ ...others }) => {
   const theme = useTheme();
   const scriptedRef = useScriptRef();
@@ -54,7 +52,7 @@ const FirebaseLogin = ({ ...others }) => {
   const [checked, setChecked] = useState(true);
   const toast = useToast();
 
-  const [redirect, setRedirect] = useState(() => decodeURIComponent(new URLSearchParams(location.search).get('redirect') || '') || defauleRedirect);
+  const [redirect, setRedirect] = useState(() => decodeURIComponent(new URLSearchParams(location.search).get('redirect') || '') || websiteConfig.defaultRedirect);
 
   useEffect(() => {
     invalidRedirect(redirect);
@@ -69,19 +67,19 @@ const FirebaseLogin = ({ ...others }) => {
         return !0;
       } else {
         // document.cookie = `next_url=${redirect}; expires=Tue, 19 Jan 2038 04:14:07 GMT`;
-        document.cookie = `_next_url=${url}; expires=0; domain=${cookie}; path=/`;
+        document.cookie = `_next_url=${url}; expires=0; domain=${websiteConfig.cookieDomain}; path=/`;
       }
     }
   };
 
   const jump2login = (path) => {
     // 跳转到外链 —> 重定向到注册页面
-    window.location.href = `${THIRDPARTYLOGINURL}/${path}?redirect=${encodeURIComponent(redirect)}`;
+    window.location.href = `${websiteConfig.loginURL}/${path}?redirect=${encodeURIComponent(redirect)}`;
   };
 
   const handlerForget = () => {
     // 为什么是replace？
-    location.replace('/reset');
+    location.href('/reset');
   };
 
   const [showPassword, setShowPassword] = useState(false);
@@ -96,7 +94,7 @@ const FirebaseLogin = ({ ...others }) => {
   return (
     <>
       <Grid key={history.location.key} container direction="column" justifyContent="center" spacing={2}>
-        {!isMiaohua && (
+        {website !== 'miaohua' && (
           <Fragment>
             <Grid item xs={12}>
               <AnimateButton>
@@ -134,9 +132,7 @@ const FirebaseLogin = ({ ...others }) => {
                 >
                   <Box sx={{ mr: { xs: 1, sm: 2, width: 20 } }}>
                     <img
-                      src={
-                        'https://bkmk.oss-accelerate.aliyuncs.com/discord-icon.png?OSSAccessKeyId=LTAI5tPynodLHeacT1J5SmWh&Expires=317031892813&Signature=HWVUkGjrF38Dt8qmSTPBJ2bBAdI%3D'
-                      }
+                      src={Discord}
                       alt="discord"
                       width={16}
                       height={16}
@@ -275,7 +271,7 @@ const FirebaseLogin = ({ ...others }) => {
               )}
             </FormControl>
             <Stack direction="row" alignItems="center" justifyContent="right" spacing={1}>
-              <Typography onClick={handlerForget} variant="subtitle1" color="secondary" sx={{ textDecoration: 'none', cursor: 'pointer' }}>
+              <Typography component={Link} to="/reset" variant="subtitle1" color="secondary" sx={{ textDecoration: 'none', cursor: 'pointer' }}>
                 <Trans i18nKey="user.login_fp">{defaultLanguage.user.login_fp}</Trans>
               </Typography>
             </Stack>

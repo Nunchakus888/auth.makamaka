@@ -1,16 +1,7 @@
 import { useState, useEffect, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { isMiaohua } from '../../../../../src/layout/NavigationScroll'
-
-const signupJumpLink = {
-  'auth.remagi.io': "https://www.remagi.io",
-  'authmiaohua.sensetime.com': "http://miaohua.sensetime.com",
-}
-
-const domain = typeof window !== 'undefined' ? window.location.hostname : '';
-export const jumpLink = signupJumpLink?.[domain] || '/'
-
+import { websiteConfig, website } from 'utils/constant/websiteConstant';
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import {
@@ -26,20 +17,15 @@ import {
   InputAdornment,
   InputLabel,
   OutlinedInput,
-  TextField,
   Typography,
   useMediaQuery
 } from '@mui/material';
-import { Trans, useTranslation } from 'react-i18next';
-
-// third party
+import { Trans } from 'react-i18next';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
-
-// project imports
 import useScriptRef from 'hooks/useScriptRef';
 import Google from 'assets/images/icons/social-google.svg';
-import Discord from 'assets/images/icons/social-google.svg';
+import Discord from 'assets/images/icons/social-discord.svg';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import { strengthColor, strengthIndicator } from 'utils/password-strength';
 import defaultLanguage from 'i18n/defaultLanguage';
@@ -51,9 +37,10 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import * as Api from "../../../../api";
 import history from "../../../../routes/history";
 import useToast from "../../../../hooks/useToast";
-import { THIRDPARTYLOGINURL } from "../../../../utils/constant/signupConstant";
 import { styled } from "@mui/styles";
 import PropTypes from "prop-types";
+
+export const jumpLink = websiteConfig.signupJumpLink || '/';
 
 // ===========================|| FIREBASE - REGISTER ||=========================== //
 
@@ -65,8 +52,6 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     padding: theme.spacing(1),
   },
 }));
-
-
 function BootstrapDialogTitle(props) {
   const { children, onClose, ...other } = props;
 
@@ -95,7 +80,6 @@ BootstrapDialogTitle.propTypes = {
   children: PropTypes.node,
   onClose: PropTypes.func.isRequired,
 };
-
 
 const FirebaseRegister = ({ ...others }) => {
   const theme = useTheme();
@@ -129,12 +113,8 @@ const FirebaseRegister = ({ ...others }) => {
     setPrivacyPolicy(false);
   };
 
-  const googleHandler = () => {
-    window.location.href = THIRDPARTYLOGINURL + '/google';
-  };
-
-  const discordHandler = () => {
-    window.location.href = THIRDPARTYLOGINURL + '/discord';
+  const loginHandler = (loginTo) => {
+    window.location.href = websiteConfig.loginURL + '/' + loginTo;
   };
 
   const handleClickShowPassword = () => {
@@ -154,7 +134,7 @@ const FirebaseRegister = ({ ...others }) => {
   useEffect(() => {
     // changePassword('123456');
     //监测URL中是否包含其他信息
-    const urls = new URLSearchParams(history.location.search);
+    const urls = new URLSearchParams(window.location.search);
     setLogintype(urls.get('login'));
     if (urls.get('login') === '1') {
       // location.replace('/paint');
@@ -166,14 +146,14 @@ const FirebaseRegister = ({ ...others }) => {
     <>
       <Grid container direction="column" justifyContent="center" spacing={2}>
         {
-          !isMiaohua && (
+          website !== 'miaohua' && (
             <Fragment>
               <Grid item xs={12}>
                 <AnimateButton>
                   <Button
                     variant="outlined"
                     fullWidth
-                    onClick={googleHandler}
+                    onClick={() => loginHandler('google')}
                     size="large"
                     sx={{
                       color: 'grey.700',
@@ -191,7 +171,7 @@ const FirebaseRegister = ({ ...others }) => {
                   <Button
                     variant="outlined"
                     fullWidth
-                    onClick={discordHandler}
+                    onClick={() => loginHandler('discord')}
                     size="large"
                     sx={{
                       color: 'grey.700',
@@ -201,7 +181,7 @@ const FirebaseRegister = ({ ...others }) => {
                     }}
                   >
                     <Box sx={{ mr: { xs: 1, sm: 2, width: 20 } }}>
-                      <img src={"https://bkmk.oss-accelerate.aliyuncs.com/discord-icon.png?OSSAccessKeyId=LTAI5tPynodLHeacT1J5SmWh&Expires=317031892813&Signature=HWVUkGjrF38Dt8qmSTPBJ2bBAdI%3D"} alt="discord" width={16} height={16} style={{ marginRight: matchDownSM ? 8 : 16 }} />
+                      <img src={Discord} alt="discord" width={16} height={16} style={{ marginRight: matchDownSM ? 8 : 16 }} />
                     </Box>
                     <Trans i18nKey="user.register_discord">{defaultLanguage.user.register_discord}</Trans>
                   </Button>
@@ -419,26 +399,6 @@ const FirebaseRegister = ({ ...others }) => {
                 </FormHelperText>
               )}
             </FormControl>
-
-            {/* <FormControl fullWidth error={Boolean(touched.invite_code && errors.invite_code)} sx={{ ...theme.typography.customInput }}>
-              <InputLabel htmlFor="outlined-adornment-invite_code-register">
-                <Trans i18nKey="user.register_invite_code">{ defaultLanguage.user.register_invite_code }</Trans>
-              </InputLabel>
-              <OutlinedInput
-                id="outlined-adornment-invite_code-register"
-                type="invite_code"
-                value={values.invite_code}
-                name="invite_code"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                inputProps={{}}
-              />
-              {touched.invite_code && errors.invite_code && (
-                <FormHelperText error id="standard-weight-helper-text--register">
-                  {errors.invite_code}
-                </FormHelperText>
-              )}
-            </FormControl> */}
 
             {strength !== 0 && (
               <FormControl fullWidth>

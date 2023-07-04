@@ -1,68 +1,59 @@
 {
-  "root": true,
-  "env": {
-    "browser": true,
-    "es2021": true
-  },
-  "extends": [
-    "prettier",
-    "plugin:react/jsx-runtime",
-    "plugin:jsx-a11y/recommended",
-    "plugin:react-hooks/recommended"
-  ],
-  "settings": {
-    "import/resolver": {
-      "node": {
-        "moduleDirectory": [
-          "node_modules",
-          "src/"
-        ]
-      }
-    }
-  },
-  "parser": "@babel/eslint-parser",
-  "parserOptions": {
-    "ecmaFeatures": {
-      "experimentalObjectRestSpread": true,
-      "impliedStrict": true
+    "root": true,
+    "env": {
+        "browser": true,
+        "es2021": true,
+        "node": true
     },
-    "ecmaVersion": 12
-  },
-  "plugins": [
-    "prettier",
-    "react",
-    "react-hooks"
-  ],
-  "rules": {
-    "react/jsx-filename-extension": 0,
-    "no-param-reassign": 0,
-    "react/prop-types": 1,
-    "react/require-default-props": 0,
-    "react/no-array-index-key": 0,
-    "react/jsx-props-no-spreading": 0,
-    "react/forbid-prop-types": 0,
-    "import/order": 0,
-    "no-console": 0,
-    "jsx-a11y/anchor-is-valid": 0,
-    "prefer-destructuring": 0,
-    "no-shadow": 0,
-    "no-unused-vars": [
-      1,
-      {
-        "ignoreRestSiblings": false
-      }
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/jsx-runtime",
+        "plugin:jsx-a11y/recommended",
+        "plugin:react/recommended"
     ],
-    "prettier/prettier": [
-      1,
-      {
-        "bracketSpacing": true,
-        "printWidth": 140,
-        "singleQuote": true,
-        "trailingComma": "none",
-        "tabWidth": 2,
-        "useTabs": false,
-        "endOfLine": "auto"
-      }
+    "settings": {
+        "import/resolver": {
+            "node": {
+                "moduleDirectory": [
+                    "node_modules",
+                    "src/"
+                ]
+            }
+        }
+    },
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react"
+    ],
+    "rules": {
+        "react/jsx-filename-extension": 0,
+        "no-param-reassign": 0,
+        "react/prop-types": 1,
+        "react/require-default-props": 1,
+        "react/no-array-index-key": 1,
+        "react/jsx-props-no-spreading": 0,
+        "react/forbid-prop-types": 0,
+        "react/react-in-jsx-scope": 0,
+        "react/display-name": 0,
+        "no-console": "off",
+        "prefer-destructuring": 1,
+        "no-shadow": 1,
+        "no-unused-vars": [
+            1,
+            {
+                "ignoreRestSiblings": false
+            }
+        ],
+        "quotes": "off"
+    },
+    "ignorePatterns": [
+        "build",
+        "node_modules"
     ]
-  }
 }

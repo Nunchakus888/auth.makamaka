@@ -28,14 +28,10 @@ import { Formik } from 'formik';
 // project imports
 import useScriptRef from 'hooks/useScriptRef';
 import AnimateButton from 'ui-component/extended/AnimateButton';
-
-// assets
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import * as Api from '../../../../api/user';
-import Google from 'assets/images/icons/social-google.svg';
 import useToast from "../../../../hooks/useToast";
-import {useinfo} from "../../../../api/user";
+import defaultLanguage from 'i18n/defaultLanguage';
+import { Trans } from 'react-i18next';
 
 // ============================|| FIREBASE - Reset ||============================ //
 
@@ -72,10 +68,10 @@ const FirebaseReset = ({ ...others }) => {
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           //发送邮件
-          const {code, info, msg} = await Api.useinfo(values).catch(e => e);
-          if(code === 0){
-            location.replace("/checking");
-          }else {
+          const { code, info, msg } = await Api.useinfo(values).catch(e => e);
+          if (code === 0) {
+            location.href = "/checking";
+          } else {
             toast(msg || "验证失败", { variant: 'warning' });
           }
           try {
@@ -96,7 +92,9 @@ const FirebaseReset = ({ ...others }) => {
         {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
           <form noValidate onSubmit={handleSubmit} {...others}>
             <FormControl fullWidth error={Boolean(touched.email && errors.email)} sx={{ ...theme.typography.customInput }}>
-              <InputLabel htmlFor="outlined-adornment-email-Reset">Email Address</InputLabel>
+              <InputLabel htmlFor="outlined-adornment-email-Reset">
+                <Trans i18nKey="user.register_email">{defaultLanguage.user.register_email}</Trans>
+              </InputLabel>
               <OutlinedInput
                 id="outlined-adornment-email-Reset"
                 type="email"

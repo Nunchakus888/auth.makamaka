@@ -10,6 +10,8 @@ import AuthCardWrapper from '../AuthCardWrapper';
 import AuthMailbox from "../auth-forms/AuthMailbox";
 import Logo from 'ui-component/Logo';
 import PageFooter from 'ui-component/cards/PageFooter';
+import defaultLanguage from 'i18n/defaultLanguage';
+import { Trans } from 'react-i18next';
 
 // assets
 
@@ -53,7 +55,7 @@ const Mailbox = () => {
                   <Grid item xs={12}>
                     <Grid item container direction="column" alignItems="center" xs={12}>
                       <Typography component={Link} to="/register" variant="subtitle1" sx={{ textDecoration: 'none' }}>
-                        Don&apos;t receive an mail?
+                        <Trans i18nKey="user.dont_receive_email">{defaultLanguage.user.dont_receive_email}</Trans>
                       </Typography>
                     </Grid>
                   </Grid>

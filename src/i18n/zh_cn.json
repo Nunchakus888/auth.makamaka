@@ -87,14 +87,17 @@
         "login_discord": "通过Discord登录",
         "login_or": "或者",
         "login_tips2": "使用电子邮件登录",
-        "login_username": "电子邮箱",
+        "login_username": "电子邮箱/用户名",
         "login_username_error": "格式错误",
         "login_password": "密码",
         "login_password_error": "密码格式错误",
         "login_rm": "保持登录",
         "login_fp": "忘记密码?",
         "login_si": "登录",
-        "login_tosignin": "没有帐户？"
+        "login_tosignin": "没有帐户？",
+        "reset_title": "重置密码",
+        "reset_info": "请输入您的电子邮件。 我们将发送一封电子邮件以重置您的密码",
+        "dont_receive_email": "未收到邮件？"
       },
       "painting": {
         "txt2img": "文生图",
