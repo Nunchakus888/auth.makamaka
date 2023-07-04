@@ -1,8 +1,6 @@
 import { useSelector } from 'react-redux';
-
 import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline, StyledEngineProvider } from '@mui/material';
-import { jumpLink } from '../src/views/user/authentication/auth-forms/AuthRegister'
 
 import './i18n';
 
@@ -18,7 +16,6 @@ import * as Api from './api';
 import { useSearchParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import useToast from './hooks/useToast';
-
 import PageFooter from 'ui-component/cards/PageFooter';
 // ==============================|| APP ||============================== //
 

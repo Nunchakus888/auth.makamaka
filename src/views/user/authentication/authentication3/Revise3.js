@@ -1,5 +1,3 @@
-import {Link, Outlet} from 'react-router-dom';
-
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import { Divider, Grid, Stack, Typography, useMediaQuery } from '@mui/material';
@@ -9,7 +7,6 @@ import AuthWrapper1 from '../AuthWrapper1';
 import AuthCardWrapper from '../AuthCardWrapper';
 import AuthRevise from '../auth-forms/AuthRevise';
 import Logo from 'ui-component/Logo';
-import PageFooter from 'ui-component/cards/PageFooter';
 
 // assets
 
@@ -28,7 +25,7 @@ const Revise = () => {
               <AuthCardWrapper>
                 <Grid container spacing={2} alignItems="center" justifyContent="center">
                   <Grid item sx={{ mb: 3 }}>
-                      <Logo />
+                    <Logo />
                   </Grid>
                   <Grid item xs={12}>
                     <Grid container direction={matchDownSM ? 'column-reverse' : 'row'} alignItems="center" justifyContent="center">

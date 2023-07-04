@@ -1,6 +1,3 @@
-// material-ui
-import { Link } from 'react-router-dom';
-import config from '../config';
 import { Box, ButtonBase } from '@mui/material';
 import { websiteConfig } from 'utils/constant/websiteConstant';
 /**

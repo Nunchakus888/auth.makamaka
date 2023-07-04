@@ -13,8 +13,8 @@ export const calcSizeOfImage = (file, type, cb) => {
   const img = new Image();
   img.src = type === 'file' ? _URL.createObjectURL(file) : file;
   img.onload = function () {
-    const width = this.width;
-    const height = this.height;
+    const {width} = this;
+    const {height} = this;
     cb({ width, height, output_size: `${width}x${height}` });
     _URL.revokeObjectURL(img.src);
   };

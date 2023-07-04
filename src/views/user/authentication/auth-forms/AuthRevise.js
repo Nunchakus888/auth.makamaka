@@ -6,18 +6,12 @@ import { useTheme } from '@mui/material/styles';
 import {
   Box,
   Button,
-  Checkbox,
-  Divider,
   FormControl,
-  FormControlLabel,
   FormHelperText,
-  Grid,
   IconButton,
   InputAdornment,
   InputLabel,
   OutlinedInput,
-  Stack,
-  Typography,
   useMediaQuery
 } from '@mui/material';
 
@@ -33,9 +27,6 @@ import AnimateButton from 'ui-component/extended/AnimateButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import * as Api from "../../../../api/user";
-
-import Google from 'assets/images/icons/social-google.svg';
-import { useLocation } from "react-router";
 import { useSearchParams } from "react-router-dom";
 import useToast from "../../../../hooks/useToast";
 
@@ -44,9 +35,6 @@ import useToast from "../../../../hooks/useToast";
 const FirebaseRevise = ({ ...others }) => {
   const theme = useTheme();
   const scriptedRef = useScriptRef();
-  const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
-  const customization = useSelector((state) => state.customization);
-  const [checked, setChecked] = useState(true);
   const [params] = useSearchParams();
   const toast = useToast();
 

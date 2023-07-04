@@ -9,7 +9,6 @@ import AuthWrapper1 from '../AuthWrapper1';
 import AuthCardWrapper from '../AuthCardWrapper';
 import AuthMailbox from "../auth-forms/AuthMailbox";
 import Logo from 'ui-component/Logo';
-import PageFooter from 'ui-component/cards/PageFooter';
 import defaultLanguage from 'i18n/defaultLanguage';
 import { Trans } from 'react-i18next';
 

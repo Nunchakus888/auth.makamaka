@@ -1,24 +1,14 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import {
   Box,
   Button,
-  Checkbox,
-  Divider,
   FormControl,
-  FormControlLabel,
   FormHelperText,
-  Grid,
-  IconButton,
-  InputAdornment,
   InputLabel,
   OutlinedInput,
-  Stack,
-  Typography,
-  useMediaQuery
 } from '@mui/material';
 
 // third party
@@ -38,9 +28,6 @@ import { Trans } from 'react-i18next';
 const FirebaseReset = ({ ...others }) => {
   const theme = useTheme();
   const scriptedRef = useScriptRef();
-  const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
-  const customization = useSelector((state) => state.customization);
-  const [checked, setChecked] = useState(true);
   const toast = useToast();
 
   const googleHandler = async () => {
@@ -120,7 +107,7 @@ const FirebaseReset = ({ ...others }) => {
             <Box sx={{ mt: 2 }}>
               <AnimateButton>
                 <Button disableElevation disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="secondary">
-                  Submit
+                  <Trans i18nKey="confirm.okBtn">{defaultLanguage.confirm.okBtn}</Trans>
                 </Button>
               </AnimateButton>
             </Box>
