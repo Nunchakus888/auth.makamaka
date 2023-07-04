@@ -103,7 +103,7 @@ const FirebaseRegister = ({ ...others }) => {
   const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
   const customization = useSelector((state) => state.customization);
   const [showPassword, setShowPassword] = useState(false);
-  const [checked, setChecked] = useState(true);
+  const [checked, setChecked] = useState(false);
   const toast = useToast();
   const [logintype, setLogintype] = useState(0);
   const [userAgreement, setUserAgreement] = useState(false);
@@ -116,11 +116,11 @@ const FirebaseRegister = ({ ...others }) => {
 
   const handleClickUserAgreementOpen = () => {
     // setUserAgreement(true);
-    window.open('./user_agreement.html');
+    window.open('./user_agreement.pdf');
   };
   const handleClickPrivacyPolicyOpen = () => {
     // setPrivacyPolicy(true);
-    window.open('./privacy_policy.html');
+    window.open('./privacy_policy.pdf');
   };
   const handleUserAgreementClose = () => {
     setUserAgreement(false);
@@ -252,7 +252,7 @@ const FirebaseRegister = ({ ...others }) => {
         </BootstrapDialogTitle>
         <DialogContent dividers>
           <Typography gutterBottom>
-          <Trans i18nKey="user.register_agree_Content">{ defaultLanguage.user.register_agree_Content }</Trans>
+            <Trans i18nKey="user.register_agree_Content">{defaultLanguage.user.register_agree_Content}</Trans>
           </Typography>
         </DialogContent>
         <DialogActions>
@@ -272,7 +272,7 @@ const FirebaseRegister = ({ ...others }) => {
         </BootstrapDialogTitle>
         <DialogContent dividers>
           <Typography gutterBottom>
-          <Trans i18nKey="user.register_agree_Content">{ defaultLanguage.user.register_agree_Content }</Trans>
+            <Trans i18nKey="user.register_agree_Content">{defaultLanguage.user.register_agree_Content}</Trans>
           </Typography>
         </DialogContent>
         <DialogActions>
@@ -288,12 +288,18 @@ const FirebaseRegister = ({ ...others }) => {
           password: '',
           submit: null,
           username: '',
-          invite_code: invitecode
+          invite_code: invitecode,
+          checked: false
         }}
         validationSchema={Yup.object().shape({
           email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
           password: Yup.string().max(255).required('Password is required'),
-          username: Yup.string().max(255).required('Username is required')
+          username: Yup.string().max(255).required('Username is required'),
+          checked: Yup.boolean().test(
+            'checked',
+            'checked is required',
+            (value, context) => value === true,
+          )
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           if (logintype === '0') {
@@ -309,8 +315,7 @@ const FirebaseRegister = ({ ...others }) => {
             if (code === 0) {
               //跳转到邮箱验证界面
               history.replace({ pathname: "/checking", state: {} });
-              history.go(0)
-
+              history.go(0);
             } else if (code === 109) {
               //失败
               toast("邮箱已被注册" || Api.ERROR_MESSAGE, { variant: 'error' });
@@ -456,7 +461,10 @@ const FirebaseRegister = ({ ...others }) => {
               <Grid item>
                 <FormControlLabel
                   control={
-                    <Checkbox checked={checked} onChange={(event) => setChecked(event.target.checked)} name="checked" color="primary" />
+                    <Checkbox checked={checked} onChange={(event) => {
+                      handleChange(event)
+                      setChecked(event.target.checked)
+                    }} name="checked" color="primary" />
                   }
                   label={
                     <Typography variant="subtitle1">
@@ -473,6 +481,11 @@ const FirebaseRegister = ({ ...others }) => {
                 />
               </Grid>
             </Grid>
+            {touched.checked && errors.checked && (
+              <FormHelperText error id="standard-weight-helper-text--register">
+                {errors.checked}
+              </FormHelperText>
+            )}
             {errors.submit && (
               <Box sx={{ mt: 3 }}>
                 <FormHelperText error>{errors.submit}</FormHelperText>
