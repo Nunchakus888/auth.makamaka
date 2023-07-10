@@ -39,7 +39,7 @@ const Mailbox = () => {
                             邮箱验证
                           </Typography>
                           <Typography variant="caption" fontSize="16px" textAlign={matchDownSM ? 'center' : 'inherit'}>
-                            请登陆邮箱点击确认进行最后一步注册
+                            请登录邮箱点击确认进行最后一步注册
                           </Typography>
                         </Stack>
                       </Grid>
