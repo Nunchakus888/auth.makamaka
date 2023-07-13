@@ -61,9 +61,9 @@ const requestWithNc = async (url, data = {}, toastFunc, successFunc) => {
             url,
             { ...data, chall_rsp },
           ).catch((e) => e);
-          const { code, msg } = res;
-          if (code !== 0) {
-            toastFunc(msg)
+          const { code: resCode, msg: resMsg } = res;
+          if (resCode !== 0) {
+            toastFunc(resMsg)
           }else{
             successFunc()
           }
