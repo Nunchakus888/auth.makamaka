@@ -4,6 +4,83 @@
  */
 import axios from '../utils/axios';
 import { commonSignup } from '../utils/constant/signupConstant';
+import nc from '../nc/index'
+
+const switchNc = (show) => {
+  if (!window.nc) return;
+  const dom = document.querySelector('#nc-captcha-container');
+  if (!dom) return;
+
+  if (show) {
+    dom.classList.add('nc-captcha-show');
+    window.nc.show();
+  } else {
+    window.nc.hide();
+   
+    dom.classList.remove('nc-captcha-show');
+  }
+};
+
+const requestWithNc = async (url, data = {}, toastFunc, successFunc) => {
+  const res = await axios({
+    method: 'post',
+    url,
+    data
+  });
+  
+  const { code, info, msg } = res || {};
+  if(code === 133){
+    const { chall_req } = info || {};
+    if (chall_req) {
+      const { appkey, kind } = chall_req;
+      // 每次初始化
+      document.querySelector('#captcha').innerHTML = '';
+      const lang = process.env.REACT_APP_DEFAULT_LANGUAGE
+      nc({
+        appkey,
+        scene: 'web',
+        language: lang === 'en' ? 'en' : 'cn',
+        successEvent: async (token) => {
+          switchNc(false)
+          /**
+           验证完成，请求参数
+          kind: "aliyun",
+          scene: scene,
+          sessionId: sessionid,
+          token: token,
+          sig: sig,
+          */
+          const chall_rsp = {
+            ...token,
+            ...chall_req,
+            scene: 'web',
+          };
+
+          // 验证cb 逻辑，自调用，不走外部逻辑，提示在此处理完
+          const res = await requestWithNc(
+            url,
+            { ...data, chall_rsp },
+          ).catch((e) => e);
+          const { code, msg } = res;
+          if (code !== 0) {
+            toastFunc(msg)
+          }else{
+            successFunc()
+          }
+        },
+        errEvent: (error) => {
+          toastFunc(error)
+        },
+        initCb() {
+          // show nc
+          window.nc.switch = switchNc;
+          switchNc(true);
+        },
+      });
+    }
+  }
+  return res
+}
 
 /**
  * 登录
@@ -134,18 +211,14 @@ export const signup2 = (email, password, remember) => {
  *     "provider_user_id":  # string 代表该平台下用户唯一id
  *     "provider_user_login":  # string 代表该平台下的用户名
  */
-export const signup = (payload) => {
+export const signup = async (payload, toastFunc, successFunc) => {
   const data = {};
   commonSignup.forEach((k) => {
     data[k] = payload[k];
   });
-  console.warn('signup----', 'signup  ', '----', data);
-  return axios({
-    method: 'post',
-    url: `/v1/signup`,
-    data
-  });
-};
+  const res = await requestWithNc(`/v1/signup`, data, toastFunc, successFunc)
+  return res
+}
 
 /**
  * 确认注册
@@ -276,15 +349,10 @@ export const get_user_info = () => {
  *  @return
  *   info ，An email has been sent to your mailbox with instructions to reset your password. String 代表邮件已发送
  */
-export const useinfo = (payload) => {
+export const useinfo = async (payload, toastFunc,successFunc) => {
   const { email } = payload;
-  return axios({
-    method: 'post',
-    url: `/v1/reset`,
-    data: {
-      email
-    }
-  });
+  const res = await requestWithNc(`/v1/reset`, { email }, toastFunc, successFunc)
+  return res
 };
 
 
