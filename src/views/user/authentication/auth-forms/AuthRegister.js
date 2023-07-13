@@ -290,12 +290,15 @@ const FirebaseRegister = ({ ...others }) => {
             values['provider_user_login'] = urls.get('provider_user_login');
             values['invite_code'] = urls.get('invite_code');
           }
-          const { code, msg } = await Api.signup(values).catch(e => e);
+          const tocheckingPage = () => {
+            history.replace({ pathname: "/checking", state: {} });
+            history.go(0);
+          }
+          const { code, msg } = await Api.signup(values, (msg) => toast(msg, { variant: 'error' }), tocheckingPage).catch(e => e);
           try {
             if (code === 0) {
               //跳转到邮箱验证界面
-              history.replace({ pathname: "/checking", state: {} });
-              history.go(0);
+              tocheckingPage()
             } else if (code === 109) {
               //失败
               toast("邮箱已被注册" || Api.ERROR_MESSAGE, { variant: 'error' });

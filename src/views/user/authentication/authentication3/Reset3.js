@@ -6,6 +6,7 @@ import AuthReset from '../auth-forms/AuthReset';
 import Logo from 'ui-component/Logo';
 import defaultLanguage from 'i18n/defaultLanguage';
 import { Trans } from 'react-i18next';
+import NcRender from '../../../../nc/render'
 
 const Reset = () => {
   const theme = useTheme();
@@ -48,6 +49,7 @@ const Reset = () => {
           </Grid>
         </Grid>
       </Grid>
+      <NcRender/>
     </AuthWrapper1>
   );
 };

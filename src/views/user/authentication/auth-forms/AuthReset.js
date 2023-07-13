@@ -54,12 +54,15 @@ const FirebaseReset = ({ ...others }) => {
           email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
-          //发送邮件
-          const { code, info, msg } = await Api.useinfo(values).catch(e => e);
-          if (code === 0) {
+          const tocheckingPage = () => {
             location.href = "/checking";
+          }
+          //发送邮件
+          const { code, info, msg } = await Api.useinfo(values, (msg) => toast(msg, { variant: 'error' }), tocheckingPage).catch(e => e);
+          if (code === 0) {
+            tocheckingPage()
           } else {
-            toast(msg || "验证失败", { variant: 'warning' });
+            toast(msg || "验证失败", { variant: 'error' });
           }
           try {
             if (scriptedRef.current) {
