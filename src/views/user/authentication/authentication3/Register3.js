@@ -11,7 +11,7 @@ import AuthCardWrapper from '../AuthCardWrapper';
 import Logo from 'ui-component/Logo';
 import AuthRegister from '../auth-forms/AuthRegister';
 import defaultLanguage from 'i18n/defaultLanguage';
-
+import NcRender from '../../../../nc/render'
 // assets
 
 // ===============================|| AUTH3 - REGISTER ||=============================== //
@@ -61,6 +61,7 @@ const Register = () => {
           </Grid>
         </Grid>
       </Grid>
+      <NcRender/>
     </AuthWrapper1>
   );
 };

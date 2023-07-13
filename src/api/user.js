@@ -4,6 +4,99 @@
  */
 import axios from '../utils/axios';
 import { commonSignup } from '../utils/constant/signupConstant';
+import nc from '../nc/index'
+import useToast from 'hooks/useToast';
+
+const toast = useToast();
+
+const switchNc = (show) => {
+  if (!window.nc) return;
+  const dom = document.querySelector('#nc-captcha-container');
+  if (!dom) return;
+
+  if (show) {
+    dom.classList.add('nc-captcha-show');
+    window.nc.show();
+  } else {
+    window.nc.hide();
+   
+    dom.classList.remove('nc-captcha-show');
+  }
+};
+
+const requestWithNc = async (url, data = {}) => {
+
+  // nc callback
+  let ncCallback = null;
+  if (data.ncCallback) {
+    ncCallback = data.ncCallback;
+    delete data.ncCallback;
+  }
+
+  const res = await axios({
+    method: 'post',
+    url,
+    data
+  });
+  
+  const { code, info, msg } = res || {};
+  if(code === 133){
+    const { chall_req } = info || {};
+    if (chall_req) {
+      const { appkey, kind } = chall_req;
+      // 每次初始化
+      document.querySelector('#captcha').innerHTML = '';
+      const lang = process.env.REACT_APP_DEFAULT_LANGUAGE
+      nc({
+        appkey,
+        scene: 'web',
+        language: lang === 'en' ? 'en' : 'cn',
+        successEvent: async (token) => {
+          switchNc(false)
+          /**
+           验证完成，请求参数
+          kind: "aliyun",
+          scene: scene,
+          sessionId: sessionid,
+          token: token,
+          sig: sig,
+          */
+          const chall_rsp = {
+            ...token,
+            ...chall_req,
+            scene: 'web',
+          };
+
+          // 验证cb 逻辑，自调用，不走外部逻辑，提示在此处理完
+          const res = await requestWithNc(
+            url,
+            { ...data, chall_rsp },
+          ).catch((e) => e);
+          const { code, msg } = res;
+          if (ncCallback) {
+            ncCallback(res);
+          } else {
+            if (code !== 0) {
+              console.log("dddd")
+              // toast.error(msg);
+            }
+          }
+        },
+        errEvent: (error) => {
+          // toast.error(error.message);
+          console.log("dddd333")
+          // switchNc(false);
+        },
+        initCb() {
+          // show nc
+          window.nc.switch = switchNc;
+          switchNc(true);
+        },
+      });
+    }
+  }
+  return res
+}
 
 /**
  * 登录
@@ -134,18 +227,14 @@ export const signup2 = (email, password, remember) => {
  *     "provider_user_id":  # string 代表该平台下用户唯一id
  *     "provider_user_login":  # string 代表该平台下的用户名
  */
-export const signup = (payload) => {
+export const signup = async (payload) => {
   const data = {};
   commonSignup.forEach((k) => {
     data[k] = payload[k];
   });
-  console.warn('signup----', 'signup  ', '----', data);
-  return axios({
-    method: 'post',
-    url: `/v1/signup`,
-    data
-  });
-};
+  const res = await requestWithNc(`/v1/signup`, data)
+  return res
+}
 
 /**
  * 确认注册

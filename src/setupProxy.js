@@ -4,7 +4,8 @@ module.exports = function (app) {
   app.use(
     '/api',
     createProxyMiddleware({
-      target: 'https://auth.makamaka.io/',
+      // target: 'https://auth.makamaka.io/',
+      target: 'https://authmiaohua.sensetime.com/',
       changeOrigin: true
     })
   );
