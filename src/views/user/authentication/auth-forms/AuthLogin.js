@@ -17,7 +17,9 @@ import {
   OutlinedInput,
   Stack,
   Typography,
-  useMediaQuery
+  useMediaQuery,
+  RadioGroup,
+  Radio
 } from '@mui/material';
 
 // third party
@@ -50,9 +52,32 @@ const FirebaseLogin = ({ ...others }) => {
   const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
   const customization = useSelector((state) => state.customization);
   const [checked, setChecked] = useState(true);
+  const [selectLoginType, setSelectLoginType] = useState('phone');
+  const [formImitialValues, setFormImitialValues] = useState();
+  const [waitTime, setWaitTime] = useState(0);
+
+  useEffect(() => {
+    if (selectLoginType === 'email') {
+      setFormImitialValues({
+        email: '',
+        password: '',
+        remember: !0,
+        submit: null
+      });
+    } else {
+      setFormImitialValues({
+        phoneNumber: '',
+        verification_code: '',
+        submit: null
+      });
+    }
+  }, [selectLoginType]);
+
   const toast = useToast();
 
-  const [redirect, setRedirect] = useState(() => decodeURIComponent(new URLSearchParams(location.search).get('redirect') || '') || websiteConfig.defaultRedirect);
+  const [redirect, setRedirect] = useState(
+    () => decodeURIComponent(new URLSearchParams(location.search).get('redirect') || '') || websiteConfig.defaultRedirect
+  );
 
   useEffect(() => {
     invalidRedirect(redirect);
@@ -89,6 +114,30 @@ const FirebaseLogin = ({ ...others }) => {
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
+  };
+
+  useEffect(() => {
+    if (waitTime > 0) {
+      setTimeout(() => {
+        setWaitTime(waitTime - 1);
+      }, 1000);
+    }
+  });
+  console.log('dd', waitTime);
+
+  const handleSendSmsCode = async (phone) => {
+    if (!phone) {
+      toast('请输入手机号码', { variant: 'error' });
+    } else {
+      const res = await Api.send_sms(`+86${phone}`);
+      const { code, msg } = res;
+      if (code === 0) {
+        setWaitTime(60);
+        toast('请查收验证码', { variant: 'success' });
+      } else {
+        toast(msg || Api.ERROR_MESSAGE, { variant: 'error' });
+      }
+    }
   };
 
   return (
@@ -131,13 +180,7 @@ const FirebaseLogin = ({ ...others }) => {
                   }}
                 >
                   <Box sx={{ mr: { xs: 1, sm: 2, width: 20 } }}>
-                    <img
-                      src={Discord}
-                      alt="discord"
-                      width={16}
-                      height={16}
-                      style={{ marginRight: matchDownSM ? 8 : 16 }}
-                    />
+                    <img src={Discord} alt="discord" width={16} height={16} style={{ marginRight: matchDownSM ? 8 : 16 }} />
                   </Box>
                   <Trans i18nKey="user.login_discord">{defaultLanguage.user.register_discord}</Trans>
                 </Button>
@@ -177,37 +220,57 @@ const FirebaseLogin = ({ ...others }) => {
         )}
         <Grid item xs={12} container alignItems="center" justifyContent="center">
           <Box sx={{ mb: 2 }}>
-            <Typography variant="subtitle1">
-              <Trans i18nKey="user.login_tips2">{defaultLanguage.user.register_tips2}</Trans>
-            </Typography>
+            <RadioGroup row aria-label="position" name="position" value={selectLoginType}>
+              <FormControlLabel
+                value="phone"
+                //
+                control={<Radio color="primary" checked={selectLoginType === 'phone'} />}
+                label={<Trans i18nKey="user.login_phone">{defaultLanguage.user.login_phone}</Trans>}
+                onChange={() => setSelectLoginType('phone')}
+              />
+              <FormControlLabel
+                value="email"
+                control={<Radio color="primary" checked={selectLoginType === 'email'} />}
+                label={<Trans i18nKey="user.register_tips2">{defaultLanguage.user.register_tips2}</Trans>}
+                onChange={() => setSelectLoginType('email')}
+              />
+            </RadioGroup>
           </Box>
         </Grid>
       </Grid>
 
       <Formik
-        initialValues={{
-          email: '',
-          password: '',
-          remember: !0,
-          submit: null
-        }}
-        validationSchema={Yup.object().shape({
-          email: Yup.string()
-            .max(255)
-            .required(<Trans i18nKey="user.login_username_error">{defaultLanguage.user.login_username_error}</Trans>),
-          password: Yup.string()
-            .max(255)
-            .required(<Trans i18nKey="user.login_password_error">{defaultLanguage.user.login_password_error}</Trans>)
-        })}
+        initialValues={formImitialValues}
+        enableReinitialize
+        validationSchema={Yup.object().shape(
+          selectLoginType === 'email'
+            ? {
+                email: Yup.string()
+                  .max(255)
+                  .required(<Trans i18nKey="user.login_username_error">{defaultLanguage.user.login_username_error}</Trans>),
+                password: Yup.string()
+                  .max(255)
+                  .required(<Trans i18nKey="user.login_password_error">{defaultLanguage.user.login_password_error}</Trans>)
+              }
+            : {
+                phoneNumber: Yup.string()
+                  .max(255)
+                  .required(<Trans i18nKey="user.login_phoneNumber_error">{defaultLanguage.user.login_phoneNumber_error}</Trans>),
+                verification_code: Yup.string()
+                  .max(255)
+                  .required(<Trans i18nKey="user.login_sms_error">{defaultLanguage.user.login_sms_error}</Trans>)
+              }
+        )}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
-          const { email, password } = values;
-          const { code, msg } = await Api.login(email, password, checked).catch((e) => e);
+          const { email, password, phoneNumber, verification_code } = values;
+          const payload = selectLoginType === 'email' ? { email, password } : { phone: `+86${phoneNumber}`, sms_code: verification_code };
+          const res = await Api.login(payload).catch((e) => e);
+          const { code, msg } = res;
           if (code === 0) {
             !invalidRedirect(redirect) && location.replace(redirect);
           } else {
             toast(msg || Api.ERROR_MESSAGE, { variant: 'error' });
           }
-
           if (scriptedRef.current) {
             setStatus({ success: true });
             setSubmitting(false);
@@ -216,71 +279,137 @@ const FirebaseLogin = ({ ...others }) => {
       >
         {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
           <form noValidate onSubmit={handleSubmit} {...others}>
-            <FormControl fullWidth error={Boolean(touched.email && errors.email)} sx={{ ...theme.typography.customInput }}>
-              <InputLabel htmlFor="outlined-adornment-email-login">
-                <Trans i18nKey="user.login_username">{defaultLanguage.user.login_username}</Trans>
-              </InputLabel>
-              <OutlinedInput
-                id="outlined-adornment-email-login"
-                type="email"
-                value={values.email}
-                name="email"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                label="Email Address / Username"
-                inputProps={{}}
-              />
-              {touched.email && errors.email && (
-                <FormHelperText error id="standard-weight-helper-text-email-login">
-                  {errors.email}
-                </FormHelperText>
-              )}
-            </FormControl>
+            {selectLoginType === 'email' ? (
+              <Fragment>
+                <FormControl fullWidth error={Boolean(touched.email && errors.email)} sx={{ ...theme.typography.customInput }}>
+                  <InputLabel htmlFor="outlined-adornment-email-login">
+                    <Trans i18nKey="user.login_username">{defaultLanguage.user.login_username}</Trans>
+                  </InputLabel>
+                  <OutlinedInput
+                    id="outlined-adornment-email-login"
+                    type="email"
+                    value={values.email}
+                    name="email"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    label="Email Address / Username"
+                    inputProps={{}}
+                  />
+                  {touched.email && errors.email && (
+                    <FormHelperText error id="standard-weight-helper-text-email-login">
+                      {errors.email}
+                    </FormHelperText>
+                  )}
+                </FormControl>
 
-            <FormControl fullWidth error={Boolean(touched.password && errors.password)} sx={{ ...theme.typography.customInput }}>
-              <InputLabel htmlFor="outlined-adornment-password-login">
-                <Trans i18nKey="user.login_password">{defaultLanguage.user.login_password}</Trans>
-              </InputLabel>
-              <OutlinedInput
-                id="outlined-adornment-password-login"
-                type={showPassword ? 'text' : 'password'}
-                value={values.password}
-                name="password"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge="end"
-                      size="large"
-                    >
-                      {showPassword ? <Visibility /> : <VisibilityOff />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-                label="Password"
-                inputProps={{}}
-              />
-              {touched.password && errors.password && (
-                <FormHelperText error id="standard-weight-helper-text-password-login">
-                  {errors.password}
-                </FormHelperText>
-              )}
-            </FormControl>
-            <Stack direction="row" alignItems="center" justifyContent="right" spacing={1}>
-              <Typography component={Link} to="/reset" variant="subtitle1" color="secondary" sx={{ textDecoration: 'none', cursor: 'pointer' }}>
-                <Trans i18nKey="user.login_fp">{defaultLanguage.user.login_fp}</Trans>
-              </Typography>
-            </Stack>
+                <FormControl fullWidth error={Boolean(touched.password && errors.password)} sx={{ ...theme.typography.customInput }}>
+                  <InputLabel htmlFor="outlined-adornment-password-login">
+                    <Trans i18nKey="user.login_password">{defaultLanguage.user.login_password}</Trans>
+                  </InputLabel>
+                  <OutlinedInput
+                    id="outlined-adornment-password-login"
+                    type={showPassword ? 'text' : 'password'}
+                    value={values.password}
+                    name="password"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          onMouseDown={handleMouseDownPassword}
+                          edge="end"
+                          size="large"
+                        >
+                          {showPassword ? <Visibility /> : <VisibilityOff />}
+                        </IconButton>
+                      </InputAdornment>
+                    }
+                    label="Password"
+                    inputProps={{}}
+                  />
+                  {touched.password && errors.password && (
+                    <FormHelperText error id="standard-weight-helper-text-password-login">
+                      {errors.password}
+                    </FormHelperText>
+                  )}
+                </FormControl>
+                <Stack direction="row" alignItems="center" justifyContent="right" spacing={1}>
+                  <Typography
+                    component={Link}
+                    to="/reset"
+                    variant="subtitle1"
+                    color="secondary"
+                    sx={{ textDecoration: 'none', cursor: 'pointer' }}
+                  >
+                    <Trans i18nKey="user.login_fp">{defaultLanguage.user.login_fp}</Trans>
+                  </Typography>
+                </Stack>
+              </Fragment>
+            ) : (
+              <Fragment>
+                <FormControl fullWidth error={Boolean(touched.phoneNumber && errors.phoneNumber)} sx={{ ...theme.typography.customInput }}>
+                  <InputLabel htmlFor="outlined-adornment-phone-login" style={{ display: 'flex' }}>
+                    <div style={{ color: '#374151', marginRight: '2px' }}>+86</div>
+                    <Trans i18nKey="user.login_phoneNumber">{defaultLanguage.user.login_phoneNumber}</Trans>
+                  </InputLabel>
+                  <OutlinedInput
+                    id="outlined-adornment-phone-login"
+                    type="tel"
+                    value={values?.phoneNumber}
+                    name="phoneNumber"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    inputProps={{}}
+                  />
+                  {touched.phoneNumber && errors.phoneNumber && (
+                    <FormHelperText error id="standard-weight-helper-text-email-login">
+                      {errors.phoneNumber}
+                    </FormHelperText>
+                  )}
+                </FormControl>
+                <FormControl
+                  fullWidth
+                  error={Boolean(touched.verification_code && errors.verification_code)}
+                  sx={{ ...theme.typography.customInput }}
+                >
+                  <InputLabel htmlFor="outlined-adornment-phone-login">
+                    <Trans i18nKey="user.verification_code">{defaultLanguage.user.verification_code}</Trans>
+                  </InputLabel>
+                  <OutlinedInput
+                    id="outlined-adornment-phone-login"
+                    value={values?.verification_code}
+                    name="verification_code"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    inputProps={{}}
+                    autoComplete={false}
+                    endAdornment={
+                      <InputAdornment position="end">
+                        {waitTime === 0 ? (
+                          <Button onClick={() => handleSendSmsCode(values?.phoneNumber)}>
+                            <Trans i18nKey="user.send_verification_code">{defaultLanguage.user.send_verification_code}</Trans>
+                          </Button>
+                        ) : (
+                          <div style={{ color: 'rgb(33, 150, 243)' }}>{`${waitTime}s`}</div>
+                        )}
+                      </InputAdornment>
+                    }
+                  />
+                  {touched.verification_code && errors.verification_code && (
+                    <FormHelperText error id="">
+                      {errors.verification_code}
+                    </FormHelperText>
+                  )}
+                </FormControl>
+              </Fragment>
+            )}
             {errors.submit && (
               <Box sx={{ mt: 3 }}>
                 <FormHelperText error>{errors.submit}</FormHelperText>
               </Box>
             )}
-
             <Box sx={{ mt: 2 }}>
               <AnimateButton>
                 <Button disableElevation disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="secondary">

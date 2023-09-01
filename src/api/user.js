@@ -4,7 +4,7 @@
  */
 import axios from '../utils/axios';
 import { commonSignup } from '../utils/constant/signupConstant';
-import nc from '../nc/index'
+import nc from '../nc/index';
 
 const switchNc = (show) => {
   if (!window.nc) return;
@@ -16,7 +16,7 @@ const switchNc = (show) => {
     window.nc.show();
   } else {
     window.nc.hide();
-   
+
     dom.classList.remove('nc-captcha-show');
   }
 };
@@ -27,21 +27,21 @@ const requestWithNc = async (url, data = {}, toastFunc, successFunc) => {
     url,
     data
   });
-  
+
   const { code, info, msg } = res || {};
-  if(code === 133){
+  if (code === 133) {
     const { chall_req } = info || {};
     if (chall_req) {
       const { appkey, kind } = chall_req;
       // 每次初始化
       document.querySelector('#captcha').innerHTML = '';
-      const lang = process.env.REACT_APP_DEFAULT_LANGUAGE
+      const lang = process.env.REACT_APP_DEFAULT_LANGUAGE;
       nc({
         appkey,
         scene: 'web',
         language: lang === 'en' ? 'en' : 'cn',
         successEvent: async (token) => {
-          switchNc(false)
+          switchNc(false);
           /**
            验证完成，请求参数
           kind: "aliyun",
@@ -53,34 +53,31 @@ const requestWithNc = async (url, data = {}, toastFunc, successFunc) => {
           const chall_rsp = {
             ...token,
             ...chall_req,
-            scene: 'web',
+            scene: 'web'
           };
 
           // 验证cb 逻辑，自调用，不走外部逻辑，提示在此处理完
-          const res = await requestWithNc(
-            url,
-            { ...data, chall_rsp },
-          ).catch((e) => e);
+          const res = await requestWithNc(url, { ...data, chall_rsp }).catch((e) => e);
           const { code: resCode, msg: resMsg } = res;
           if (resCode !== 0) {
-            toastFunc(resMsg)
-          }else{
-            successFunc()
+            toastFunc(resMsg);
+          } else {
+            successFunc();
           }
         },
         errEvent: (error) => {
-          toastFunc(error)
+          toastFunc(error);
         },
         initCb() {
           // show nc
           window.nc.switch = switchNc;
           switchNc(true);
-        },
+        }
       });
     }
   }
-  return res
-}
+  return res;
+};
 
 /**
  * 登录
@@ -91,14 +88,27 @@ const requestWithNc = async (url, data = {}, toastFunc, successFunc) => {
  *  @return
  *    {}
  */
-export const login = (email, password, remember) => {
-  const data = {};
-  data['email'] = email;
-  data['password'] = password;
-  data['remember'] = remember;
+export const login = (payload) => {
+  const data = payload;
+  // data['email'] = email;
+  // data['password'] = password;
+  // data['remember'] = remember;
   return axios({
     method: 'post',
     url: `/v1/login`,
+    // headers: {
+    //   'Content-Type': 'application/json; charset=UTF-8',
+    // },
+    data
+  });
+};
+
+export const send_sms = (phone) => {
+  const data = {};
+  data['phone'] = phone;
+  return axios({
+    method: 'post',
+    url: `/v1/send_sms_verify`,
     // headers: {
     //   'Content-Type': 'application/json; charset=UTF-8',
     // },
@@ -216,9 +226,9 @@ export const signup = async (payload, toastFunc, successFunc) => {
   commonSignup.forEach((k) => {
     data[k] = payload[k];
   });
-  const res = await requestWithNc(`/v1/signup`, data, toastFunc, successFunc)
-  return res
-}
+  const res = await requestWithNc(`/v1/signup`, data, toastFunc, successFunc);
+  return res;
+};
 
 /**
  * 确认注册
@@ -245,7 +255,6 @@ export const signup_verify = (payload = {}) => {
   });
 };
 
-
 /**
  * 更新用户名
  * @request
@@ -264,7 +273,6 @@ export const update_username = (user_name) => {
     data
   });
 };
-
 
 /**
  * 更新密码
@@ -302,7 +310,6 @@ export const check_user_name_repeat = (Username) => {
   });
 };
 
-
 /**
  * 获取用户邀请码
  * @request
@@ -320,7 +327,6 @@ export const generate_invite_code = () => {
     data
   });
 };
-
 
 /**
  * 获取用户信息
@@ -349,12 +355,11 @@ export const get_user_info = () => {
  *  @return
  *   info ，An email has been sent to your mailbox with instructions to reset your password. String 代表邮件已发送
  */
-export const useinfo = async (payload, toastFunc,successFunc) => {
+export const useinfo = async (payload, toastFunc, successFunc) => {
   const { email } = payload;
-  const res = await requestWithNc(`/v1/reset`, { email }, toastFunc, successFunc)
-  return res
+  const res = await requestWithNc(`/v1/reset`, { email }, toastFunc, successFunc);
+  return res;
 };
-
 
 /**
  * 重置密码请求修改密码
@@ -366,11 +371,11 @@ export const useinfo = async (payload, toastFunc,successFunc) => {
  */
 export const reset_verified = (payload) => {
   const data = {};
-  const {token, password} = payload;
+  const { token, password } = payload;
   return axios({
     method: 'post',
     url: `/v1/reset_verified`,
-    data:{
+    data: {
       token,
       password
     }
@@ -398,7 +403,7 @@ export const get_consume = (page) => {
   return axios({
     method: 'post',
     url: `/v1/get_consume`,
-    data:{
+    data: {
       page
     }
   });
