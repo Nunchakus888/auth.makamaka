@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: makaauthfd
-          image: registry.sensetime.com/xlab/maka/makaauthfd:v1.0.0-test
+          image: example.com/xlab/maka/makaauthfd:v1.0.0-test
           imagePullPolicy: Always
           ports:
             - containerPort: 80
